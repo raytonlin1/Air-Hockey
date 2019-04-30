@@ -22,7 +22,8 @@ class Paddle(pygame.sprite.Sprite):
         self.vy = 0
 
     def update(self, keys):
-        
+
+        # Accelerates the paddle if key is pressed
         if keys[controls[self.id][0]]:
             self.vy -= 2
         if keys[controls[self.id][1]]:
@@ -31,18 +32,25 @@ class Paddle(pygame.sprite.Sprite):
             self.vx -= 2
         if keys[controls[self.id][3]]:
             self.vx += 2
-        
+
+        # Decelerates the paddle if key is not pressed
+        # If moving forward (horizontally)
         if self.vx>0:
             self.vx -= 1
+        # If moving backward (horizontally)
         elif self.vx<0:
             self.vx += 1
+        # If moving down (vertically)
         if self.vy>0:
             self.vy -= 1
+        # If moving up (vertically)
         elif self.vy<0:
             self.vy += 1
 
         self.rect.move_ip(self.vx, self.vy)
-        
+
+        # Forms the barrier in which the paddle can move
+        # If paddle 
         if self.rect.left<self.xmin:
             self.rect.left = self.xmin
             self.vx = 0
