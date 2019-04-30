@@ -8,8 +8,9 @@ class Player(pygame.sprite.Sprite):
 
     def __init__(self, img, id,  top, left, bottom, right):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("small_ball.png")
-        self.rect= self.image.get_rect()
+        self.image = pygame.Surface((70, 70))
+        pygame.transform.scale(pygame.image.load(img), (70, 70), self.image)
+        self.rect = self.image.get_rect()
         self.rect.topleft = ((left+right)/2, (top+bottom)/2)
         self.id = id
         self.xmin = left

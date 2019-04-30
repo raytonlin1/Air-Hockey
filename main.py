@@ -4,8 +4,8 @@ from pygame.locals import *
 pygame.init()
 
 screen = pygame.display.set_mode((1000, 640))
-p1 = Player(2, 0, 0, 0, 640, 500)
-p2 = Player(2, 1, 0, 500, 640, 1000)
+p1 = Player("redpaddle.png", 0, 0, 0, 640, 500)
+p2 = Player("bluepaddle.png", 1, 0, 500, 640, 1000)
 background = pygame.Surface(screen.get_size()).convert()
 background.fill((255, 255, 255))
 clock = pygame.time.Clock()
