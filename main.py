@@ -28,3 +28,4 @@ while keep_going:
     screen.blit(p2.image, p2.rect)
     screen.blit(puck.image, puck.rect)
     pygame.display.flip()
+    # testing
