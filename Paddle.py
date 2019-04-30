@@ -24,16 +24,24 @@ class Paddle(pygame.sprite.Sprite):
     def update(self, keys):
 
         # Accelerates the paddle if key is pressed
+        # If up key or key 'w' is pressed depending on the index
         if keys[controls[self.id][0]]:
-            self.vy -= 2
+            # Paddle goes up
+            self.vy -= 2.5
+        # If down key or key 's' is pressed depending on the index
         if keys[controls[self.id][1]]:
-            self.vy += 2
+            # Paddle goes down
+            self.vy += 2.5
+        # If left key or key 'a' is pressed depending on the index
         if keys[controls[self.id][2]]:
-            self.vx -= 2
+            # Paddle goes left
+            self.vx -= 2.5
+        # If right key or key 'd' is pressed depending on the index
         if keys[controls[self.id][3]]:
-            self.vx += 2
+            # Paddle goes right
+            self.vx += 2.5
 
-        # Decelerates the paddle if key is not pressed
+        # Decelerates the paddle
         # If moving forward (horizontally)
         if self.vx>0:
             self.vx -= 1
