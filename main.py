@@ -1,11 +1,12 @@
 import pygame
-from Player import *
+import pygame
+from Paddle import *
 from pygame.locals import *
 pygame.init()
 
 screen = pygame.display.set_mode((1000, 640))
-p1 = Player("redpaddle.png", 0, 0, 0, 640, 500)
-p2 = Player("bluepaddle.png", 1, 0, 500, 640, 1000)
+p1 = Paddle("redpaddle.png", 0, 0, 0, 640, 500)
+p2 = Paddle("bluepaddle.png", 1, 0, 500, 640, 1000)
 background = pygame.Surface(screen.get_size()).convert()
 background.fill((255, 255, 255))
 clock = pygame.time.Clock()
