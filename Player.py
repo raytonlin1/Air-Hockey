@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 pygame.init()
 
-controls = [[K_UP, K_DOWN, K_LEFT, K_RIGHT], ["K_W", "K_S", "K_A", "K_D"]]
+controls = [[K_UP, K_DOWN, K_LEFT, K_RIGHT], [K_w, K_s, K_a, K_d]]
 
 class Player(pygame.sprite.Sprite):
 
