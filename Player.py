@@ -2,11 +2,11 @@ import pygame
 from pygame.locals import *
 pygame.init()
 
-controls = [["K_UP", "K_DOWN", "K_LEFT", "K_RIGHT"], ["K_W", "K_S", "K_A", "K_D"]]
+controls = [[K_UP, K_DOWN, K_LEFT, K_RIGHT], ["K_W", "K_S", "K_A", "K_D"]]
 
 class Player(pygame.sprite.Sprite):
 
-    def __init__(self, img, id,  top, left, bottom, right, col):
+    def __init__(self, img, id,  top, left, bottom, right):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("small_ball.png")
         self.rect= self.image.get_rect()
@@ -16,35 +16,43 @@ class Player(pygame.sprite.Sprite):
         self.ymin = top 
         self.xmax = right
         self.ymax = bottom
-        self.colour = col
         self.vx = 0
         self.vy = 0
 
-    def update(ev):
-        if ev[self.id][0]:
-            self.vy -= 1
-        if ev[self.id][1]:
-            self.vy += 1
-        if ev[self.id][2]:
+    def update(self, keys):
+        
+        if keys[controls[self.id][0]]:
+            self.vy -= 2
+        if keys[controls[self.id][1]]:
+            self.vy += 2
+        if keys[controls[self.id][2]]:
+            self.vx -= 2
+        if keys[controls[self.id][3]]:
+            self.vx += 2
+        
+        if self.vx>0:
             self.vx -= 1
-        if ev[self.id][3]:
+        elif self.vx<0:
             self.vx += 1
+        if self.vy>0:
+            self.vy -= 1
+        elif self.vy<0:
+            self.vy += 1
+
+        self.rect.move_ip(self.vx, self.vy)
         
-        self.posx += self.vx
-        self.posy += self.vy
-        
-        if self.left<self.xmin:
-            self.left = self.xmin
+        if self.rect.left<self.xmin:
+            self.rect.left = self.xmin
             self.vx = 0
-        elif self.right>self.xmax:
-            self.right = self.xmax
+        elif self.rect.right>self.xmax:
+            self.rect.right = self.xmax
             self.vx = 0
 
-        if self.top<self.ymin:
-            self.top = self.ymin
+        if self.rect.top<self.ymin:
+            self.rect.top = self.ymin
             self.vy = 0
-        elif self.bottom>self.ymax:
-            self.bottom = self.ymax
+        elif self.rect.bottom>self.ymax:
+            self.rect.bottom = self.ymax
             self.vy = 0
 
         
