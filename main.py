@@ -5,6 +5,7 @@ pygame.init()
 
 screen = pygame.display.set_mode((1000, 640))
 p1 = Player(2, 0, 0, 0, 640, 500)
+p2 = Player(2, 1, 0, 500, 640, 1000)
 background = pygame.Surface(screen.get_size()).convert()
 background.fill((255, 255, 255))
 clock = pygame.time.Clock()
@@ -18,6 +19,8 @@ while keep_going:
             keep_going = False
     keys = pygame.key.get_pressed()
     p1.update(keys)
+    p2.update(keys)
     screen.blit(background, (0, 0))
     screen.blit(p1.image, p1.rect)
+    screen.blit(p2.image, p2.rect)
     pygame.display.flip()
