@@ -58,17 +58,28 @@ class Paddle(pygame.sprite.Sprite):
         self.rect.move_ip(self.vx, self.vy)
 
         # Forms the barrier in which the paddle can move
-        # If paddle 
+        # If paddle hits the left barrier
         if self.rect.left<self.xmin:
+            # Forms left barrier for each paddle
             self.rect.left = self.xmin
+            # When paddle hits the left barrier it stops moving
             self.vx = 0
+        # If paddle hits the right barrier
         elif self.rect.right>self.xmax:
+            # Forms right barrier for each paddle
             self.rect.right = self.xmax
+            # When paddle hits the right barrier it stops moving
             self.vx = 0
 
+        # If paddle hits the top barrier
         if self.rect.top<self.ymin:
+            # Forms the top barrier for each paddle
             self.rect.top = self.ymin
+            # When paddle hits the top barrier its stops moving
             self.vy = 0
+        # If paddle hits the bottom barrier
         elif self.rect.bottom>self.ymax:
+            # Forms the bottom barrier for each paddle
             self.rect.bottom = self.ymax
+            # When paddle hits the bottom barrier it stops moving
             self.vy = 0
