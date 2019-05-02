@@ -23,7 +23,7 @@ class Paddle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         # Determines the midpoint of the area that the paddle can move (starting point)
         self.rect.topleft = (((left+right)/2)-25), (((top+bottom)/2)-25)
-        
+        # Decides which set of controls is used
         self.id = id
 
         # Determines attributes of the paddle (barrier and velocity in x and y direction)
