@@ -98,14 +98,14 @@ class Paddle(pygame.sprite.Sprite):
             self.vy = 0
 
     def collide(self, puck):
-        paddlex = (self.rect.left+self.rect.right)/2
-        paddley = (self.rect.top+self.rect.bottom)/2
-        puckx = (puck.rect.left+puck.rect.right)/2
-        pucky = (puck.rect.top+puck.rect.bottom)/2
+        paddlex = self.rect.centerx
+        paddley = self.rect.centery
+        puckx = puck.rect.centerx
+        pucky = puck.rect.centery
         dist = ((paddlex-puckx)**2+(paddley-pucky)**2)**0.5
-        paddleradius = (paddle.rect.right-paddle.rect.left)/2
-        puckradius = (puck.rect.bottom-puck.rect.top)/2
-        if (dist<=min(paddleradius, puckradius)):
+        paddleradius = (self.rect.width)/2
+        puckradius = (puck.rect.width)/2
+        if (dist<=paddleradius+puckradius):
             return True
         else:
             return False

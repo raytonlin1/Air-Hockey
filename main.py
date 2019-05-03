@@ -23,6 +23,11 @@ while keep_going:
     keys = pygame.key.get_pressed()
     p1.update(keys)
     p2.update(keys)
+    if (p1.collide(puck)):
+        puck.bounce(p1)
+    if (p2.collide(puck)):
+        puck.bounce(p2)
+    puck.update()
     screen.blit(background, (0, 0))
     screen.blit(p1.image, p1.rect)
     screen.blit(p2.image, p2.rect)
