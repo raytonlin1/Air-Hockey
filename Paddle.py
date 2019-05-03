@@ -97,6 +97,12 @@ class Paddle(pygame.sprite.Sprite):
             # When paddle hits the bottom barrier it stops moving
             self.vy = 0
 
+    def get_angle(self):
+        ref = math.atan(self.vx/self.vy)
+        if (self.vx<0 and self.vy<0):
+            ref += math.pi
+        return ref
+
     def collide(self, puck):
         paddlex = self.rect.centerx
         paddley = self.rect.centery
