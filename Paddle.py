@@ -10,19 +10,19 @@ controls = [[K_UP, K_DOWN, K_LEFT, K_RIGHT], [K_w, K_s, K_a, K_d]]
 
 class Paddle(pygame.sprite.Sprite):
 
-    def __init__(self, img, id,  top, left, bottom, right, size):
+    def __init__(self, img, id,  top, left, bottom, right):
         # Constructs the parent component
         pygame.sprite.Sprite.__init__(self)
         # Size of the image
-        self.image = pygame.Surface((size, size))
+        self.image = pygame.Surface((50, 50))
         # Makes the paddle a specific size and loads image of the paddle to the surface
-        pygame.transform.scale(pygame.image.load(img).convert_alpha(), (size, size), self.image)
+        pygame.transform.scale(pygame.image.load(img).convert_alpha(), (50, 50), self.image)
         # Makes the background of the paddle transparent
         self.image.set_colorkey(self.image.get_at((0,0)))
         # Determines the attributes of the paddle
         self.rect = self.image.get_rect()
         # Determines the midpoint of the area that the paddle can move (starting point)
-        self.rect.topleft = (((left+right)/2)-(size/2)), (((top+bottom)/2)-(size/2))
+        self.rect.topleft = (((left+right)/2)-25), (((top+bottom)/2)-25)
         # Decides which set of controls is used
         self.id = id
 
@@ -115,4 +115,3 @@ class Paddle(pygame.sprite.Sprite):
             return True
         else:
             return False
-
