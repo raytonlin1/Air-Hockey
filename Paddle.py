@@ -111,7 +111,7 @@ class Paddle(pygame.sprite.Sprite):
         dist = ((paddlex-puckx)**2+(paddley-pucky)**2)**0.5
         paddleradius = (self.rect.width)/2
         puckradius = (puck.rect.width)/2
-        if (dist<=paddleradius+puckradius):
+        if (dist<paddleradius+puckradius):
             return True
         else:
             return False

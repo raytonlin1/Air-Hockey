@@ -94,22 +94,18 @@ class Puck(pygame.sprite.Sprite):
                 self.angle = calibrate(self.angle)
                 reflect_angle = calibrate(reflect_angle)
                 opp_angle = calibrate(opp_angle)
-                diff = min(min(abs(reflect_angle-self.angle), abs(reflect_angle-self.angle+360)), min(abs(opp_angle-self.angle), abs(opp_angle-self.angle+360)))
                 d1 = min(abs(self.angle-reflect_angle), abs(self.angle-reflect_angle+360))
                 d2 = min(abs(self.angle-opp_angle), abs(self.angle-opp_angle+360))
                 if (d1<d2):
-                    if (calibrate(self.angle)==calibrate(opp_angle+diff)):
-                        self.angle = opp_angle-diff;
+                    if (calibrate(self.angle)==calibrate(opp_angle+d1)):
+                        self.angle = opp_angle-d1;
                     else:
-                        self.angle = opp_angle+diff
+                        self.angle = opp_angle+d1
                 else:
-                    print(reflect_angle)
-                    print(calibrate(self.angle+math.pi))
-                    print(calibrate(reflect_angle+diff))
-                    if (calibrate(self.angle)==calibrate(reflect_angle+diff)):
-                        self.angle = reflect_angle-diff
+                    if (calibrate(self.angle)==calibrate(reflect_angle+d2)):
+                        self.angle = reflect_angle-d2
                     else:
-                        self.angle = reflect_angle+diff
+                        self.angle = reflect_angle+d2
         except:
             if (paddlex==puckx):
                 if (paddlex<puckx):
@@ -122,6 +118,7 @@ class Puck(pygame.sprite.Sprite):
                 else:
                     self.angle = math.pi/2
         self.speed += (paddle.vx**2+paddle.vy**2)**0.5
+        self.speed = max(self.speed, 25)
         while (paddle.collide(self)):
                 self.rect.move_ip(math.cos(self.angle)*self.speed, -math.sin(self.angle)*self.speed)
 
