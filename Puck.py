@@ -4,6 +4,29 @@ from pygame.locals import *
 
 import random
 
+def getAngle(x1, y1, x2, y2):
+    yv = y2-y1
+    xv = x1-x2
+    angle = 0
+    if (xv>0):
+        if (yv>0):
+            angle = math.atan(yv/xv)
+        else:
+            angle = math.pi*2+math.atan(yv/xv)
+    else:
+        if (yv>0):
+            angle = math.pi+math.atan(yv/xv)
+        else:
+            angle = math.pi+math.atan(yv/xv)
+    return angle
+
+def calibrate(angle):
+    while (angle<0):
+        angle += math.pi*2
+    while (angle>math.pi*2):
+        angle -= math.pi*2
+    return angle
+
 class Puck(pygame.sprite.Sprite):
 
     def __init__(self, img, top, left, bottom, right):
@@ -21,38 +44,40 @@ class Puck(pygame.sprite.Sprite):
         self.speed = 0
 
     def update(self):
-        if (self.speed>0):
-            self.speed -= 0.2
-        elif (self.speed>0):
-            self.speed += 0.2
-        self.rect.move_ip(math.sin(self.angle)*self.speed, -math.cos(self.angle)*self.speed)
-
-        # Forms the barrier in which the paddle can move
-        # If paddle hits the left barrier
+        if (self.speed>0.5):
+            self.speed -= 0.5
+        elif (self.speed>0.5):
+            self.speed += 0.5
+        else:
+            self.speed = 0
+        self.rect.move_ip(math.cos(self.angle)*self.speed, -math.sin(self.angle)*self.speed)
+        self.angle = calibrate(self.angle)
         if self.rect.left<self.xmin:
-            # Forms left barrier for each paddle
             self.rect.left = self.xmin
-            # When paddle hits the left barrier it stops moving
-            self.angle = 2*math.pi-self.angle
-        # If paddle hits the right barrier
+            if (self.angle<math.pi):
+                self.angle = math.pi-self.angle
+            else:
+                self.angle = math.pi*2-self.angle-math.pi
         elif self.rect.right>self.xmax:
-            # Forms right barrier for each paddle
             self.rect.right = self.xmax
-            # When paddle hits the right barrier it stops moving
-            self.angle = 3/2*math.pi-self.angle+math.pi/2
-
-        # If paddle hits the top barrier
+            if (self.angle<math.pi/2):
+                self.angle = math.pi-self.angle
+            else:
+                self.angle = math.pi*2-self.angle+math.pi
         if self.rect.top<self.ymin:
-            # Forms the top barrier for each paddle
             self.rect.top = self.ymin
-            # When paddle hits the top barrier its stops moving
-            self.angle = 2*math.pi-self.angle+math.pi
-        # If paddle hits the bottom barrier
+            if (self.angle<math.pi/2):
+                self.angle = math.pi*2-self.angle
+            else:
+                self.angle = math.pi-self.angle+math.pi
         elif self.rect.bottom>self.ymax:
-            # Forms the bottom barrier for each paddle
             self.rect.bottom = self.ymax
-            # When paddle hits the bottom barrier it stops moving
-            self.angle = math.pi-self.angle
+            if (self.angle<3/2*math.pi):
+                self.angle = 2*math.pi-self.angle
+            else:
+                self.angle = math.pi*2-self.angle
+        while (self.rect.left<self.xmin or self.rect.right>self.xmax or self.rect.top<self.ymin or self.rect.bottom>self.ymax):
+            self.rect.move_ip(math.cos(self.angle)*self.speed, -math.sin(self.angle)*self.speed)
         
     def bounce(self, paddle):
         paddlex = (paddle.rect.left+paddle.rect.right)/2
@@ -60,18 +85,31 @@ class Puck(pygame.sprite.Sprite):
         puckx = (self.rect.left+self.rect.right)/2
         pucky = (self.rect.top+self.rect.bottom)/2
         try:
-            reflect_angle = math.atan(((paddley-pucky)/(paddlex-puckx)))
-            opp_angle = math.pi+reflect_angle
-            diff = min(abs(reflect_angle-self.angle), abs(opp_angle-self.angle))
-            rotate = math.pi-diff*2
-            self.angle += rotate
-            '''
-            print(reflect_angle)
-            print(opp_angle)
-            print(diff)
-            print(self.angle)
-            fad = input()
-            '''
+            paddle_angle = getAngle(paddlex, paddley, puckx, pucky)
+            reflect_angle = calibrate(paddle_angle+math.pi/2)
+            opp_angle = calibrate(paddle_angle-math.pi/2)
+            if (self.speed==0):
+                self.angle = paddle_angle+math.pi
+            else:
+                self.angle = calibrate(self.angle)
+                reflect_angle = calibrate(reflect_angle)
+                opp_angle = calibrate(opp_angle)
+                diff = min(min(abs(reflect_angle-self.angle), abs(reflect_angle-self.angle+360)), min(abs(opp_angle-self.angle), abs(opp_angle-self.angle+360)))
+                d1 = min(abs(self.angle-reflect_angle), abs(self.angle-reflect_angle+360))
+                d2 = min(abs(self.angle-opp_angle), abs(self.angle-opp_angle+360))
+                if (d1<d2):
+                    if (calibrate(self.angle)==calibrate(opp_angle+diff)):
+                        self.angle = opp_angle-diff;
+                    else:
+                        self.angle = opp_angle+diff
+                else:
+                    print(reflect_angle)
+                    print(calibrate(self.angle+math.pi))
+                    print(calibrate(reflect_angle+diff))
+                    if (calibrate(self.angle)==calibrate(reflect_angle+diff)):
+                        self.angle = reflect_angle-diff
+                    else:
+                        self.angle = reflect_angle+diff
         except:
             if (paddlex==puckx):
                 if (paddlex<puckx):
@@ -85,7 +123,7 @@ class Puck(pygame.sprite.Sprite):
                     self.angle = math.pi/2
         self.speed += (paddle.vx**2+paddle.vy**2)**0.5
         while (paddle.collide(self)):
-                self.rect.move_ip(math.sin(self.angle)*self.speed, -math.cos(self.angle)*self.speed)
+                self.rect.move_ip(math.cos(self.angle)*self.speed, -math.sin(self.angle)*self.speed)
 
 
 
