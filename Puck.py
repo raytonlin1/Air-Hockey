@@ -22,9 +22,9 @@ class Puck(pygame.sprite.Sprite):
 
     def update(self):
         if (self.speed>0):
-            self.speed -= 0.1
+            self.speed -= 0.2
         elif (self.speed>0):
-            self.speed += 0.1
+            self.speed += 0.2
         self.rect.move_ip(math.sin(self.angle)*self.speed, -math.cos(self.angle)*self.speed)
 
         # Forms the barrier in which the paddle can move
