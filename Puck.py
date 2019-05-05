@@ -7,6 +7,11 @@ import random
 def getAngle(x1, y1, x2, y2):
     yv = y2-y1
     xv = x1-x2
+    if (xv==0):
+        if (yv<0):
+            return math.pi/2
+        else:
+            return 3/2*math.pi
     angle = 0
     if (xv>0):
         if (yv>0):
@@ -23,9 +28,12 @@ def getAngle(x1, y1, x2, y2):
 def calibrate(angle):
     while (angle<0):
         angle += math.pi*2
-    while (angle>math.pi*2):
+    while (angle>=math.pi*2):
         angle -= math.pi*2
     return angle
+
+def minDist(angle1, angle2):
+    return min(calibrate(angle1-angle2), calibrate(angle2-angle1))
 
 class Puck(pygame.sprite.Sprite):
 
@@ -84,41 +92,50 @@ class Puck(pygame.sprite.Sprite):
         paddley = (paddle.rect.top+paddle.rect.bottom)/2
         puckx = (self.rect.left+self.rect.right)/2
         pucky = (self.rect.top+self.rect.bottom)/2
-        try:
-            paddle_angle = getAngle(paddlex, paddley, puckx, pucky)
-            reflect_angle = calibrate(paddle_angle+math.pi/2)
-            opp_angle = calibrate(paddle_angle-math.pi/2)
-            if (self.speed==0):
-                self.angle = paddle_angle+math.pi
+        angle = calibrate(getAngle(puckx, pucky, paddlex, paddley))
+        reflect_angle = calibrate(angle-math.pi/2)
+        opp_angle = calibrate(angle+math.pi/2)
+        self.angle = calibrate(self.angle)
+        paddle_angle = paddle.getAngle()
+        if (paddlex==puckx):
+            if (paddley<pucky):
+                self.angle = 3/2*math.pi
             else:
-                self.angle = calibrate(self.angle)
-                reflect_angle = calibrate(reflect_angle)
-                opp_angle = calibrate(opp_angle)
-                d1 = min(abs(self.angle-reflect_angle), abs(self.angle-reflect_angle+360))
-                d2 = min(abs(self.angle-opp_angle), abs(self.angle-opp_angle+360))
-                if (d1<d2):
-                    if (calibrate(self.angle)==calibrate(opp_angle+d1)):
-                        self.angle = opp_angle-d1;
-                    else:
-                        self.angle = opp_angle+d1
-                else:
-                    if (calibrate(self.angle)==calibrate(reflect_angle+d2)):
-                        self.angle = reflect_angle-d2
-                    else:
-                        self.angle = reflect_angle+d2
-        except:
-            if (paddlex==puckx):
-                if (paddlex<puckx):
-                    self.angle = 0
-                else:
-                    self.angle = math.pi/2
+                self.angle = math.pi/2
+        elif (paddley==pucky):
+            if (paddlex<puckx):
+                self.angle = 0
             else:
-                if (paddley<pucky):
-                    self.angle = 3/2*math.pi
+                self.angle = math.pi
+        elif (self.speed==0):
+            self.angle = angle
+        elif (minDist(self.angle, calibrate(paddle_angle))<math.pi/2):
+            num = math.sin(self.angle)*self.speed-paddle.vy
+            den = math.cos(self.angle)*self.speed+paddle.vx
+            self.angle = abs(math.atan(num/den))
+            if (num<0 and den<0):
+                self.angle += math.pi
+            elif (num<0):
+                self.angle = 2*math.pi-self.angle
+            elif (den<0):
+                self.angle = math.pi-self.angle
+        else:
+            d1 = minDist(self.angle, reflect_angle)
+            d2 = minDist(self.angle, opp_angle)
+            if (d1<d2):
+                if (self.angle==calibrate(reflect_angle+d1)):
+                    self.angle = reflect_angle-d1;
                 else:
-                    self.angle = math.pi/2
+                    self.angle = reflect_angle+d1
+            else:
+                if (self.angle==calibrate(opp_angle+d2)):
+                    self.angle = opp_angle-d2
+                else:
+                    self.angle = opp_angle+d2
         self.speed += (paddle.vx**2+paddle.vy**2)**0.5
-        self.speed = max(self.speed, 25)
+        self.speed = min(self.speed, 25)
+        paddle.vx *= 0.9
+        paddle.vy *= 0.9
         while (paddle.collide(self)):
                 self.rect.move_ip(math.cos(self.angle)*self.speed, -math.sin(self.angle)*self.speed)
 

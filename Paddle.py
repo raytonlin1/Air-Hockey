@@ -1,5 +1,5 @@
 # Imports the pygame module
-import pygame
+import pygame, math
 # Imports all local functions from pygame.local 
 from pygame.locals import *
 # Initiates pygame
@@ -68,6 +68,9 @@ class Paddle(pygame.sprite.Sprite):
         elif self.vy<0:
             self.vy += 1
 
+        self.vx = min(self.vx, 20)
+        self.vy = min(self.vy, 20)
+
         self.rect.move_ip(self.vx, self.vy)
 
         # Forms the barrier in which the paddle can move
@@ -97,13 +100,24 @@ class Paddle(pygame.sprite.Sprite):
             # When paddle hits the bottom barrier it stops moving
             self.vy = 0
 
-    def get_angle(self):
-        ref = math.atan(self.vx/self.vy)
-        if (self.vx<0 and self.vy<0):
+    def getAngle(self):
+        if (self.vx==0):
+            if (self.vy<0):
+                return math.pi/2
+            else:
+                return 3/2*math.pi
+        ref = math.atan(abs(-self.vy/self.vx))
+        if (self.vx<0 and self.vy>0):
             ref += math.pi
+        elif (self.vx<0):
+           ref = math.pi-ref 
+        elif (self.vy>0):
+            ref = 2*math.pi-ref   
         return ref
 
     def collide(self, puck):
+        if (self.vx==0 and self.vy==0 and puck.speed==0):
+            return False
         paddlex = self.rect.centerx
         paddley = self.rect.centery
         puckx = puck.rect.centerx
