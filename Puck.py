@@ -26,7 +26,7 @@ def minDist(angle1, angle2):
 
 class Puck(pygame.sprite.Sprite):
 
-    def __init__(self, img, top, left, bottom, right):
+    def __init__(self, img, top, left, bottom, right, size):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((30,30))
         pygame.transform.scale(pygame.image.load(img).convert_alpha(), (30,30), self.image)
