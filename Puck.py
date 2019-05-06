@@ -43,7 +43,7 @@ class Puck(pygame.sprite.Sprite):
         pygame.transform.scale(pygame.image.load(img).convert_alpha(), (size,size), self.image)
         self.image.set_colorkey(self.image.get_at((0,0)))
         self.rect = self.image.get_rect()
-        self.rect.topleft = (((left+right)/2)-15, ((top+bottom)/2)-15)
+        self.rect.topleft = (((left+right)/2)-(size/2), ((top+bottom)/2)-(size/2))
         self.xmin = left
         self.ymin = top
         self.xmax = right
