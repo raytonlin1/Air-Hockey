@@ -10,19 +10,19 @@ controls = [[K_UP, K_DOWN, K_LEFT, K_RIGHT], [K_w, K_s, K_a, K_d]]
 
 class Paddle(pygame.sprite.Sprite):
 
-    def __init__(self, img, id,  top, left, bottom, right, size):
+    def __init__(self, img, id,  top, left, bottom, right):
         # Constructs the parent component
         pygame.sprite.Sprite.__init__(self)
         # Size of the image
-        self.image = pygame.Surface((size, size))
+        self.image = pygame.Surface((50, 50))
         # Makes the paddle a specific size and loads image of the paddle to the surface
-        pygame.transform.scale(pygame.image.load(img).convert_alpha(), (size, size), self.image)
+        pygame.transform.scale(pygame.image.load(img).convert_alpha(), (50, 50), self.image)
         # Makes the background of the paddle transparent
         self.image.set_colorkey(self.image.get_at((0,0)))
         # Determines the attributes of the paddle
         self.rect = self.image.get_rect()
         # Determines the midpoint of the area that the paddle can move (starting point)
-        self.rect.topleft = (((left+right)/2)-(size/2), ((top+bottom)/2)-(size/2))
+        self.rect.topleft = (((left+right)/2)-size/2), (((top+bottom)/2)-size/2)
         # Decides which set of controls is used
         self.id = id
 
@@ -101,19 +101,7 @@ class Paddle(pygame.sprite.Sprite):
             self.vy = 0
 
     def getAngle(self):
-        if (self.vx==0):
-            if (self.vy<0):
-                return math.pi/2
-            else:
-                return 3/2*math.pi
-        ref = math.atan(abs(-self.vy/self.vx))
-        if (self.vx<0 and self.vy>0):
-            ref += math.pi
-        elif (self.vx<0):
-           ref = math.pi-ref 
-        elif (self.vy>0):
-            ref = 2*math.pi-ref   
-        return ref
+        return math.atan2(-self.vy, self.vx)
 
     def collide(self, puck):
         if (self.vx==0 and self.vy==0 and puck.speed==0):
@@ -125,7 +113,7 @@ class Paddle(pygame.sprite.Sprite):
         dist = ((paddlex-puckx)**2+(paddley-pucky)**2)**0.5
         paddleradius = (self.rect.width)/2
         puckradius = (puck.rect.width)/2
-        if (dist<paddleradius+puckradius):
+        if (dist<paddleradius+puckradius-1):
             return True
         else:
             return False
