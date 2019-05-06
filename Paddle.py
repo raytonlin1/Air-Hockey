@@ -101,19 +101,7 @@ class Paddle(pygame.sprite.Sprite):
             self.vy = 0
 
     def getAngle(self):
-        if (self.vx==0):
-            if (self.vy<0):
-                return math.pi/2
-            else:
-                return 3/2*math.pi
-        ref = math.atan(abs(-self.vy/self.vx))
-        if (self.vx<0 and self.vy>0):
-            ref += math.pi
-        elif (self.vx<0):
-           ref = math.pi-ref 
-        elif (self.vy>0):
-            ref = 2*math.pi-ref   
-        return ref
+        return math.atan2(-self.vy, self.vx)
 
     def collide(self, puck):
         if (self.vx==0 and self.vy==0 and puck.speed==0):
@@ -125,7 +113,7 @@ class Paddle(pygame.sprite.Sprite):
         dist = ((paddlex-puckx)**2+(paddley-pucky)**2)**0.5
         paddleradius = (self.rect.width)/2
         puckradius = (puck.rect.width)/2
-        if (dist<paddleradius+puckradius):
+        if (dist<paddleradius+puckradius-1):
             return True
         else:
             return False

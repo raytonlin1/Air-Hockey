@@ -12,18 +12,7 @@ def getAngle(x1, y1, x2, y2):
             return math.pi/2
         else:
             return 3/2*math.pi
-    angle = 0
-    if (xv>0):
-        if (yv>0):
-            angle = math.atan(yv/xv)
-        else:
-            angle = math.pi*2+math.atan(yv/xv)
-    else:
-        if (yv>0):
-            angle = math.pi+math.atan(yv/xv)
-        else:
-            angle = math.pi+math.atan(yv/xv)
-    return angle
+    return math.atan2(yv, xv)
 
 def calibrate(angle):
     while (angle<0):
@@ -97,7 +86,9 @@ class Puck(pygame.sprite.Sprite):
         opp_angle = calibrate(angle+math.pi/2)
         self.angle = calibrate(self.angle)
         paddle_angle = paddle.getAngle()
-        if (paddlex==puckx):
+        if (self.speed==0):
+            self.angle = angle
+        elif (paddlex==puckx):
             if (paddley<pucky):
                 self.angle = 3/2*math.pi
             else:
@@ -107,24 +98,16 @@ class Puck(pygame.sprite.Sprite):
                 self.angle = 0
             else:
                 self.angle = math.pi
-        elif (self.speed==0):
-            self.angle = angle
         elif (minDist(self.angle, calibrate(paddle_angle))<math.pi/2):
             num = math.sin(self.angle)*self.speed-paddle.vy
             den = math.cos(self.angle)*self.speed+paddle.vx
-            self.angle = abs(math.atan(num/den))
-            if (num<0 and den<0):
-                self.angle += math.pi
-            elif (num<0):
-                self.angle = 2*math.pi-self.angle
-            elif (den<0):
-                self.angle = math.pi-self.angle
+            self.angle = math.atan2(num, den)
         else:
             d1 = minDist(self.angle, reflect_angle)
             d2 = minDist(self.angle, opp_angle)
             if (d1<d2):
                 if (self.angle==calibrate(reflect_angle+d1)):
-                    self.angle = reflect_angle-d1;
+                    self.angle = reflect_angle-d1
                 else:
                     self.angle = reflect_angle+d1
             else:
@@ -136,8 +119,7 @@ class Puck(pygame.sprite.Sprite):
         self.speed = min(self.speed, 25)
         paddle.vx *= 0.9
         paddle.vy *= 0.9
-        while (paddle.collide(self)):
-                self.rect.move_ip(math.cos(self.angle)*self.speed, -math.sin(self.angle)*self.speed)
-
+        while (paddle.collide(self) and self.speed>0):
+            self.rect.move_ip(math.cos(self.angle)*self.speed, -math.sin(self.angle)*self.speed)
 
 
