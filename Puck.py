@@ -37,10 +37,10 @@ def minDist(angle1, angle2):
 
 class Puck(pygame.sprite.Sprite):
 
-    def __init__(self, img, top, left, bottom, right):
+    def __init__(self, img, top, left, bottom, right, size):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((30,30))
-        pygame.transform.scale(pygame.image.load(img).convert_alpha(), (30,30), self.image)
+        self.image = pygame.Surface((size,size))
+        pygame.transform.scale(pygame.image.load(img).convert_alpha(), (size,size), self.image)
         self.image.set_colorkey(self.image.get_at((0,0)))
         self.rect = self.image.get_rect()
         self.rect.topleft = (((left+right)/2)-15, ((top+bottom)/2)-15)
@@ -138,6 +138,3 @@ class Puck(pygame.sprite.Sprite):
         paddle.vy *= 0.9
         while (paddle.collide(self)):
                 self.rect.move_ip(math.cos(self.angle)*self.speed, -math.sin(self.angle)*self.speed)
-
-
-
