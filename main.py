@@ -19,8 +19,10 @@ keep_going = True
 recSize1 = (10,610)
 recSize2 = (1040,10)
 # 2 different sizes for goals because of adjustment of goal size in level 1
-goalSizeLeft = (10,200)
-goalSizeRight = (10,200)
+size1 = 200
+size2 = 200
+goalSizeLeft = (10,size1)
+goalSizeRight = (10,size2)
 
 recSideLeft = pygame.Surface(recSize1).convert()
 recSideRight = pygame.Surface(recSize1).convert()
