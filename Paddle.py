@@ -40,33 +40,33 @@ class Paddle(pygame.sprite.Sprite):
         # If up key or key 'w' is pressed depending on the index
         if keys[controls[self.id][0]]:
             # Paddle goes up
-            self.vy -= 2.5
+            self.vy -= 1.5
         # If down key or key 's' is pressed depending on the index
         if keys[controls[self.id][1]]:
             # Paddle goes down
-            self.vy += 2.5
+            self.vy += 1.5
         # If left key or key 'a' is pressed depending on the index
         if keys[controls[self.id][2]]:
             # Paddle goes left
-            self.vx -= 2.5
+            self.vx -= 1.5
         # If right key or key 'd' is pressed depending on the index
         if keys[controls[self.id][3]]:
             # Paddle goes right
-            self.vx += 2.5
+            self.vx += 1.5
 
         # Decelerates the paddle
         # If moving forward (horizontally)
         if self.vx>0:
-            self.vx -= 1
+            self.vx -= 0.5
         # If moving backward (horizontally)
         elif self.vx<0:
-            self.vx += 1
+            self.vx += 0.5
         # If moving down (vertically)
         if self.vy>0:
-            self.vy -= 1
+            self.vy -= 0.5
         # If moving up (vertically)
         elif self.vy<0:
-            self.vy += 1
+            self.vy += 0.5
 
         self.vx = min(self.vx, 20)
         self.vy = min(self.vy, 20)
@@ -104,8 +104,6 @@ class Paddle(pygame.sprite.Sprite):
         return math.atan2(-self.vy, self.vx)
 
     def collide(self, puck):
-        if (self.vx==0 and self.vy==0 and puck.speed==0):
-            return False
         paddlex = self.rect.centerx
         paddley = self.rect.centery
         puckx = puck.rect.centerx
@@ -113,7 +111,7 @@ class Paddle(pygame.sprite.Sprite):
         dist = ((paddlex-puckx)**2+(paddley-pucky)**2)**0.5
         paddleradius = (self.rect.width)/2
         puckradius = (puck.rect.width)/2
-        if (dist<paddleradius+puckradius-1):
+        if (dist<paddleradius+puckradius):
             return True
         else:
             return False
