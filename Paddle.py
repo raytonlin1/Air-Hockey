@@ -14,9 +14,9 @@ class Paddle(pygame.sprite.Sprite):
         # Constructs the parent component
         pygame.sprite.Sprite.__init__(self)
         # Size of the image
-        self.image = pygame.Surface((50, 50))
+        self.image = pygame.Surface((size, size))
         # Makes the paddle a specific size and loads image of the paddle to the surface
-        pygame.transform.scale(pygame.image.load(img).convert_alpha(), (50, 50), self.image)
+        pygame.transform.scale(pygame.image.load(img).convert_alpha(), (60, 60), self.image)
         # Makes the background of the paddle transparent
         self.image.set_colorkey(self.image.get_at((0,0)))
         # Determines the attributes of the paddle
@@ -111,7 +111,7 @@ class Paddle(pygame.sprite.Sprite):
         dist = ((paddlex-puckx)**2+(paddley-pucky)**2)**0.5
         paddleradius = (self.rect.width)/2
         puckradius = (puck.rect.width)/2
-        if (dist<paddleradius+puckradius):
+        if (dist<=paddleradius+puckradius-1):
             return True
         else:
             return False
