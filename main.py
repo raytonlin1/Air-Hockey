@@ -32,7 +32,7 @@ goalLeft = pygame.Surface(goalSizeLeft).convert()
 goalRight = pygame.Surface(goalSizeRight).convert()
 
 while keep_going:
-    clock.tick(30)
+    clock.tick(60)
     for ev in pygame.event.get():
         if ev.type == QUIT:
             keep_going = False
