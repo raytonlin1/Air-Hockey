@@ -18,11 +18,16 @@ keep_going = True
 
 recSize1 = (10,610)
 recSize2 = (1040,10)
+# 2 different sizes for goals because of adjustment of goal size in level 1
+goalSizeLeft = (10,200)
+goalSizeRight = (10,200)
 
 recSideLeft = pygame.Surface(recSize1).convert()
 recSideRight = pygame.Surface(recSize1).convert()
 recSideTop = pygame.Surface(recSize2).convert()
 recSideBottom = pygame.Surface(recSize2).convert()
+goalLeft = pygame.Surface(goalSizeLeft).convert()
+goalRight = pygame.Surface(goalSizeRight).convert()
 
 while keep_going:
     clock.tick(30)
@@ -40,13 +45,17 @@ while keep_going:
     recSideRight.fill((138,54,15))
     recSideTop.fill((138,54,15))
     recSideBottom.fill((138,54,15))
+    goalLeft.fill((0,0,0))
+    goalRight.fill((0,0,0))
     puck.update()
     screen.blit(background, (0, 0))
     screen.blit(p1.image, p1.rect)
     screen.blit(p2.image, p2.rect)
     screen.blit(puck.image, puck.rect)
     screen.blit(recSideLeft, (0,100))
-    screen.blit(recSideRight, (1030, 100))
-    screen.blit(recSideTop, (0, 90))
-    screen.blit(recSideBottom, (0, 690))
+    screen.blit(recSideRight, (1030,100))
+    screen.blit(recSideTop, (0,90))
+    screen.blit(recSideBottom, (0,690))
+    screen.blit(goalLeft, (0,(100+((700-100)/2)-(200/2))))
+    screen.blit(goalRight, (1030,(100+((700-100)/2)-(200/2))))
     pygame.display.flip()
