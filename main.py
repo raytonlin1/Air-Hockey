@@ -58,6 +58,6 @@ while keep_going:
     screen.blit(recSideRight, (1030,100))
     screen.blit(recSideTop, (0,90))
     screen.blit(recSideBottom, (0,690))
-    screen.blit(goalLeft, (0,(100+((700-100)/2)-(200/2))))
-    screen.blit(goalRight, (1030,(100+((700-100)/2)-(200/2))))
+    screen.blit(goalLeft, (0,(100+((700-100)/2)-(size1/2))))
+    screen.blit(goalRight, (1030,(100+((700-100)/2)-(size2/2))))
     pygame.display.flip()
