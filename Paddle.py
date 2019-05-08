@@ -16,7 +16,7 @@ class Paddle(pygame.sprite.Sprite):
         # Size of the image
         self.image = pygame.Surface((size, size))
         # Makes the paddle a specific size and loads image of the paddle to the surface
-        pygame.transform.scale(pygame.image.load(img).convert_alpha(), (60, 60), self.image)
+        pygame.transform.scale(pygame.image.load(img).convert_alpha(), (size, size), self.image)
         # Makes the background of the paddle transparent
         self.image.set_colorkey(self.image.get_at((0,0)))
         # Determines the attributes of the paddle
