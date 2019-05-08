@@ -43,6 +43,7 @@ while keep_going:
         puck.bounce(p1)
     if (p2.collide(puck)):
         puck.bounce(p2)
+
     recSideLeft.fill((138,54,15))
     recSideRight.fill((138,54,15))
     recSideTop.fill((138,54,15))
@@ -50,7 +51,21 @@ while keep_going:
     goalLeft.fill((0,0,0))
     goalRight.fill((0,0,0))
     puck.update()
+    
     screen.blit(background, (0, 0))
+    # Centre line of air hockey surface
+    pygame.draw.line(screen, (255,0,0), (519,100), (519,690),5)
+    # Circles at centre of air hockey surface
+    pygame.draw.circle(screen, (255,0,0), (520, 395), 130)
+    pygame.draw.circle(screen, (255,255,255), (520, 395), 125)
+
+    # Semicircle at left goal
+    pygame.draw.circle(screen, (255,0,0), (0, 400), 120)
+    pygame.draw.circle(screen, (255,255,255), (0, 400), 115)
+
+    # Semicircle at right goal
+    pygame.draw.circle(screen, (255,0,0), (1040, 400), 120)
+    pygame.draw.circle(screen, (255,255,255), (1040, 400), 115)
     screen.blit(p1.image, p1.rect)
     screen.blit(p2.image, p2.rect)
     screen.blit(puck.image, puck.rect)
@@ -60,4 +75,5 @@ while keep_going:
     screen.blit(recSideBottom, (0,690))
     screen.blit(goalLeft, (0,(100+((700-100)/2)-(size1/2))))
     screen.blit(goalRight, (1030,(100+((700-100)/2)-(size2/2))))
+
     pygame.display.flip()
