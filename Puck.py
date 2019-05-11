@@ -41,10 +41,10 @@ class Puck(pygame.sprite.Sprite):
         self.speed = 0
 
     def update(self):
-        if (self.speed>0.11):
-            self.speed -= 0.11
-        elif (self.speed>0.11):
-            self.speed += 0.11
+        if (self.speed>0.15):
+            self.speed -= 0.15
+        elif (self.speed>0.15):
+            self.speed += 0.15
         else:
             self.speed = 0
         self.rect.move_ip(math.cos(self.angle)*self.speed, -math.sin(self.angle)*self.speed)
