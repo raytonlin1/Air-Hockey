@@ -41,10 +41,10 @@ class Puck(pygame.sprite.Sprite):
         self.speed = 0
 
     def update(self):
-        if (self.speed>0.2):
-            self.speed -= 0.2
-        elif (self.speed>0.2):
-            self.speed += 0.2
+        if (self.speed>0.15):
+            self.speed -= 0.15
+        elif (self.speed>0.15):
+            self.speed += 0.15
         else:
             self.speed = 0
         self.rect.move_ip(math.cos(self.angle)*self.speed, -math.sin(self.angle)*self.speed)
@@ -75,7 +75,7 @@ class Puck(pygame.sprite.Sprite):
                 self.angle = math.pi*2-self.angle
         while (self.rect.left<self.xmin or self.rect.right>self.xmax or self.rect.top<self.ymin or self.rect.bottom>self.ymax):
             self.rect.move_ip(math.cos(self.angle)*self.speed, -math.sin(self.angle)*self.speed)
-        
+
     def bounce(self, paddle):
         paddlex = (paddle.rect.left+paddle.rect.right)/2
         paddley = (paddle.rect.top+paddle.rect.bottom)/2
