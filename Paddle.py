@@ -10,7 +10,7 @@ controls = [[K_UP, K_DOWN, K_LEFT, K_RIGHT], [K_w, K_s, K_a, K_d]]
 
 class Paddle(pygame.sprite.Sprite):
 
-    def __init__(self, img, id,  top, left, bottom, right, size):
+    def __init__(self, img, id, top, left, bottom, right, size):
         # Constructs the parent component
         pygame.sprite.Sprite.__init__(self)
         # Size of the image
