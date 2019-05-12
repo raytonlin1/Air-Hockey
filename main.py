@@ -110,7 +110,6 @@ while keep_going:
     # Draw semicircle at right goal
     pygame.draw.circle(screen, (255,0,0), (1025, 400), 105+(numIncrease2*20))
     pygame.draw.circle(screen, (255,255,255), (1025, 400), 100+(numIncrease2*20))
-
     
     screen.blit(p1.image, p1.rect)
     screen.blit(p2.image, p2.rect)
