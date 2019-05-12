@@ -40,19 +40,19 @@ class Paddle(pygame.sprite.Sprite):
         # If up key or key 'w' is pressed depending on the index
         if keys[controls[self.id][0]]:
             # Paddle goes up
-            self.vy -= 1.5
+            self.vy -= 1.2
         # If down key or key 's' is pressed depending on the index
         if keys[controls[self.id][1]]:
             # Paddle goes down
-            self.vy += 1.5
+            self.vy += 1.2
         # If left key or key 'a' is pressed depending on the index
         if keys[controls[self.id][2]]:
             # Paddle goes left
-            self.vx -= 1.5
+            self.vx -= 1.2
         # If right key or key 'd' is pressed depending on the index
         if keys[controls[self.id][3]]:
             # Paddle goes right
-            self.vx += 1.5
+            self.vx += 1.2
 
         # Decelerates the paddle
         # If moving forward (horizontally)
@@ -78,12 +78,18 @@ class Paddle(pygame.sprite.Sprite):
         if self.rect.left<self.xmin:
             # Forms left barrier for each paddle
             self.rect.left = self.xmin
+            if self.id == 1:
+                wallSound = pygame.mixer.Sound("wall.wav")
+                wallSound.play()
             # When paddle hits the left barrier it stops moving
             self.vx = 0
         # If paddle hits the right barrier
         elif self.rect.right>self.xmax:
             # Forms right barrier for each paddle
             self.rect.right = self.xmax
+            if self.id == 0:
+                wallSound = pygame.mixer.Sound("wall.wav")
+                wallSound.play()
             # When paddle hits the right barrier it stops moving
             self.vx = 0
 
@@ -91,12 +97,16 @@ class Paddle(pygame.sprite.Sprite):
         if self.rect.top<self.ymin:
             # Forms the top barrier for each paddle
             self.rect.top = self.ymin
+            wallSound = pygame.mixer.Sound("wall.wav")
+            wallSound.play()
             # When paddle hits the top barrier its stops moving
             self.vy = 0
         # If paddle hits the bottom barrier
         elif self.rect.bottom>self.ymax:
             # Forms the bottom barrier for each paddle
             self.rect.bottom = self.ymax
+            wallSound = pygame.mixer.Sound("wall.wav")
+            wallSound.play()
             # When paddle hits the bottom barrier it stops moving
             self.vy = 0
 
@@ -112,6 +122,8 @@ class Paddle(pygame.sprite.Sprite):
         paddleradius = (self.rect.width)/2
         puckradius = (puck.rect.width)/2
         if (dist<=paddleradius+puckradius-1):
+            collisionSound = pygame.mixer.Sound("collision.wav")
+            collisionSound.play()
             return True
         else:
             return False
