@@ -52,6 +52,9 @@ while keep_going:
     for ev in pygame.event.get():
         if ev.type == QUIT:
             keep_going = False
+    font = pygame.font.SysFont("arial", 48)
+    font.set_bold(True)
+    scoreLabel = font.render((str(score2) + " : " + str(score1)), True, (255,0,0))
     keys = pygame.key.get_pressed()
     p1.update(keys)
     p2.update(keys)
@@ -122,4 +125,6 @@ while keep_going:
     screen.blit(goal1.image, goal1.rect)
     screen.blit(goal2.image, goal2.rect)
 
+    screen.blit(scoreLabel, (472,40))
+    
     pygame.display.flip()
