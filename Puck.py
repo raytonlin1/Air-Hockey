@@ -51,24 +51,32 @@ class Puck(pygame.sprite.Sprite):
         self.angle = calibrate(self.angle)
         if self.rect.left<self.xmin:
             self.rect.left = self.xmin
+            wallSound = pygame.mixer.Sound("wall.wav")
+            wallSound.play()
             if (self.angle<math.pi):
                 self.angle = math.pi-self.angle
             else:
                 self.angle = math.pi*2-self.angle-math.pi
         elif self.rect.right>self.xmax:
             self.rect.right = self.xmax
+            wallSound = pygame.mixer.Sound("wall.wav")
+            wallSound.play()
             if (self.angle<math.pi/2):
                 self.angle = math.pi-self.angle
             else:
                 self.angle = math.pi*2-self.angle+math.pi
         if self.rect.top<self.ymin:
             self.rect.top = self.ymin
+            wallSound = pygame.mixer.Sound("wall.wav")
+            wallSound.play()
             if (self.angle<math.pi/2):
                 self.angle = math.pi*2-self.angle
             else:
                 self.angle = math.pi-self.angle+math.pi
         elif self.rect.bottom>self.ymax:
             self.rect.bottom = self.ymax
+            wallSound = pygame.mixer.Sound("wall.wav")
+            wallSound.play()
             if (self.angle<3/2*math.pi):
                 self.angle = 2*math.pi-self.angle
             else:
