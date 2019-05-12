@@ -132,7 +132,13 @@ while keep_going:
     screen.blit(goal1.image, goal1.rect)
     screen.blit(goal2.image, goal2.rect)
 
-    screen.blit(scoreLabel, (472,40))
+    # Centre the output of the score on the screen
+    if score2 < 10:
+        screen.blit(scoreLabel, (472,40))
+    elif score2 >= 10:
+        screen.blit(scoreLabel, (446,40))
+
+    # Output of text if the goal size reaches maximum size
     if width1 >= 400:
         screen.blit(maxIncreaseLabel2, (30,60))
     if width2 >= 400:
