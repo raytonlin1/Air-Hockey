@@ -19,7 +19,7 @@ width1 = 200
 # Initialize right goal width
 width2 = 200
 goal1 = Goal(1, 0, 300, width1)
-goal2 = Goal(0, 1030, 300, width2)
+goal2 = Goal(0, 1010, 300, width2)
 background = pygame.Surface(screen.get_size()).convert()
 pygame.display.set_caption('Air Hockey')
 background.fill((255, 255, 255))
@@ -82,7 +82,7 @@ while keep_going:
         if width2 < 401:
             width2 += 40
             numIncrease2 += 1
-        goal2 = Goal(0, 1030, (100+((700-100)/2)-(width2/2)), width2)
+        goal2 = Goal(0, 1010, (100+((700-100)/2)-(width2/2)), width2)
         score2 += 1
         print("Score Player 1:", score2)
         time.sleep(2)
@@ -104,12 +104,13 @@ while keep_going:
     pygame.draw.circle(screen, (255,255,255), (520, 395), 125)
 
     # Draw semicircle at left goal
-    pygame.draw.circle(screen, (255,0,0), (0, 400), 105+(numIncrease1*20))
-    pygame.draw.circle(screen, (255,255,255), (0, 400), 100+(numIncrease1*20))
+    pygame.draw.circle(screen, (255,0,0), (15, 400), 105+(numIncrease1*20))
+    pygame.draw.circle(screen, (255,255,255), (15, 400), 100+(numIncrease1*20))
 
     # Draw semicircle at right goal
-    pygame.draw.circle(screen, (255,0,0), (1040, 400), 105+(numIncrease2*20))
-    pygame.draw.circle(screen, (255,255,255), (1040, 400), 100+(numIncrease2*20))
+    pygame.draw.circle(screen, (255,0,0), (1025, 400), 105+(numIncrease2*20))
+    pygame.draw.circle(screen, (255,255,255), (1025, 400), 100+(numIncrease2*20))
+
     
     screen.blit(p1.image, p1.rect)
     screen.blit(p2.image, p2.rect)
