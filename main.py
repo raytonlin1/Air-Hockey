@@ -60,7 +60,7 @@ while keep_going:
     if (p2.collide(puck)):
         puck.bounce(p2)
 
-    if (puck.rect.left < 10.01) and (puck.rect.top > 270-(numIncrease1*20) and puck.rect.top < 470+(numIncrease1*20)):
+    if (puck.rect.left < 11) and (puck.rect.top > 270-(numIncrease1*20) and puck.rect.top < 470+(numIncrease1*20)):
         goalMusic = pygame.mixer.Sound("goal.wav")
         goalMusic.play()
         puck = Puck("puck.png", 100, 10, 690, 1030, 45)
@@ -73,7 +73,7 @@ while keep_going:
         score1 += 1
         time.sleep(2)
         print("Score Player 2:", score1)
-    elif (puck.rect.right > 1029.99) and (puck.rect.top > 270-(numIncrease2*20) and puck.rect.top < 470+(numIncrease2*20)):
+    elif (puck.rect.right > 1029) and (puck.rect.top > 270-(numIncrease2*20) and puck.rect.top < 470+(numIncrease2*20)):
         goalSound = pygame.mixer.Sound("goal.wav")
         goalSound.play()
         puck = Puck("puck.png", 100, 10, 690, 1030, 45)
