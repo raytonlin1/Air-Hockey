@@ -74,8 +74,8 @@ while keep_going:
         time.sleep(2)
         print("Score Player 2:", score1)
     elif (puck.rect.right > 1029.99) and (puck.rect.top > 270-(numIncrease2*20) and puck.rect.top < 470+(numIncrease2*20)):
-        goalMusic = pygame.mixer.Sound("goal.wav")
-        goalMusic.play()
+        goalSound = pygame.mixer.Sound("goal.wav")
+        goalSound.play()
         puck = Puck("puck.png", 100, 10, 690, 1030, 45)
         p1 = Paddle("redpaddle.png", 1, 100, 10, 690, 520, 60)
         p2 = Paddle("bluepaddle.png", 0, 100, 520, 690, 1030, 60)
