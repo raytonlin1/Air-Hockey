@@ -52,9 +52,9 @@ while keep_going:
     for ev in pygame.event.get():
         if ev.type == QUIT:
             keep_going = False
-    font = pygame.font.SysFont("arial", 48)
-    font.set_bold(True)
-    scoreLabel = font.render((str(score2) + " : " + str(score1)), True, (255,0,0))
+    font1 = pygame.font.SysFont("arial", 48)
+    font1.set_bold(True)
+    scoreLabel = font1.render((str(score2) + " : " + str(score1)), True, (0,0,255))
     keys = pygame.key.get_pressed()
     p1.update(keys)
     p2.update(keys)
@@ -63,6 +63,10 @@ while keep_going:
     if (p2.collide(puck)):
         puck.bounce(p2)
 
+    # Maximum goal size output font
+    font2 = pygame.font.SysFont("arial", 24)
+    font2.set_bold(True)
+    
     if (puck.rect.left < 11) and (puck.rect.top > 270-(numIncrease1*20) and puck.rect.top < 470+(numIncrease1*20)):
         goalMusic = pygame.mixer.Sound("goal.wav")
         goalMusic.play()
@@ -72,10 +76,11 @@ while keep_going:
         if width1 < 401:
             width1 += 40
             numIncrease1 += 1
+        maxIncreaseLabel2 = font2.render("Goal Size Maximum", True, (50,205,50))
         goal1 = Goal(1, 0, (100+((700-100)/2)-(width1/2)), width1)
         score1 += 1
         time.sleep(2)
-        print("Score Player 2:", score1)
+        #print("Score Player 2:", score1)
     elif (puck.rect.right > 1029) and (puck.rect.top > 270-(numIncrease2*20) and puck.rect.top < 470+(numIncrease2*20)):
         goalSound = pygame.mixer.Sound("goal.wav")
         goalSound.play()
@@ -85,9 +90,11 @@ while keep_going:
         if width2 < 401:
             width2 += 40
             numIncrease2 += 1
+
+        maxIncreaseLabel1 = font2.render("Goal Size Maximum", True, (50,205,50))
         goal2 = Goal(0, 1010, (100+((700-100)/2)-(width2/2)), width2)
         score2 += 1
-        print("Score Player 1:", score2)
+        #print("Score Player 1:", score2)
         time.sleep(2)
     
     # Colour all 4 borders brown
@@ -126,5 +133,9 @@ while keep_going:
     screen.blit(goal2.image, goal2.rect)
 
     screen.blit(scoreLabel, (472,40))
+    if width1 >= 400:
+        screen.blit(maxIncreaseLabel2, (30,60))
+    if width2 >= 400:
+        screen.blit(maxIncreaseLabel1, (800,60))
     
     pygame.display.flip()
