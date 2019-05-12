@@ -139,9 +139,9 @@ while keep_going:
         screen.blit(scoreLabel, (446,40))
 
     # Output of text if the goal size reaches maximum size
-    if width1 >= 400:
+    if width1 > 400:
         screen.blit(maxIncreaseLabel2, (30,60))
-    if width2 >= 400:
+    if width2 > 400:
         screen.blit(maxIncreaseLabel1, (800,60))
     
     pygame.display.flip()
