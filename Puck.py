@@ -50,8 +50,6 @@ class Puck(pygame.sprite.Sprite):
         self.rect.move_ip(math.cos(self.angle)*self.speed, -math.sin(self.angle)*self.speed)
         self.angle = calibrate(self.angle)
         if self.rect.colliderect(left.rect) and (self.rect.top<=goal1.rect.top or self.rect.bottom>=goal1.rect.bottom):
-            print(self.rect.top, self.rect.bottom)
-            print(goal1.rect.top, goal1.rect.bottom)
             wallSound = pygame.mixer.Sound("wall.wav")
             wallSound.play()
             if (self.angle<math.pi):
