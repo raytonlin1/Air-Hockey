@@ -58,6 +58,11 @@ numIncrease2 = 0
 recSideTop = pygame.Surface(recSize2).convert()
 recSideBottom = pygame.Surface(recSize2).convert()
 
+font1 = pygame.font.SysFont("arial", 48)
+font1.set_bold(True)
+font2 = pygame.font.SysFont("arial", 24)
+font2.set_bold(True)
+
 displaypuck = True
 
 while keep_going:
@@ -82,10 +87,6 @@ while keep_going:
     elif (puck.rect.colliderect(goal2.rect)):
         displaypuck = False
         print("HELLO")
-
-    # Maximum goal size output font
-    font2 = pygame.font.SysFont("arial", 24)
-    font2.set_bold(True)
 
     puck.update(goal1, goal2, leftWall, rightWall, upWall, downWall)
 
