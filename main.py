@@ -3,7 +3,6 @@ import time
 from Paddle import *
 from Puck import *
 from Goal import *
-from GoalSideBlock import *
 from pygame.locals import *
 from Wall import *
 # Initiates pygame.mixer to allow user to adjust the sound volume
@@ -59,6 +58,8 @@ numIncrease2 = 0
 recSideTop = pygame.Surface(recSize2).convert()
 recSideBottom = pygame.Surface(recSize2).convert()
 
+displaypuck = True
+
 while keep_going:
     clock.tick(60)
     for ev in pygame.event.get():
@@ -81,6 +82,11 @@ while keep_going:
 
     puck.update(leftWall, rightWall, upWall, downWall)
 
+    if (puck.rect.colliderect(goal1.rect)):
+        displaypuck = False
+    elif (puck.rect.colliderect(goal2.rect)):
+        displaypuck = False
+
     screen.blit(background, (0, 0))
     # Draw centre line of air hockey surface
     pygame.draw.line(screen, (255,0,0), (519,100), (519,690),5)
@@ -99,7 +105,6 @@ while keep_going:
     
     screen.blit(p1.image, p1.rect)
     screen.blit(p2.image, p2.rect)
-    screen.blit(puck.image, puck.rect)
     # screen.blit(recSideLeft, (0,100))
     # screen.blit(recSideRight, (985,100))
 
@@ -110,7 +115,8 @@ while keep_going:
     screen.blit(rightWall.image, rightWall.rect)
     screen.blit(upWall.image, upWall.rect)
     screen.blit(downWall.image, downWall.rect)
-
+    if (displaypuck):
+        screen.blit(puck.image, puck.rect)
     
     # Centre the output of the score on the screen
     if score2 < 10:
