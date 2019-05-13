@@ -34,7 +34,7 @@ class Paddle(pygame.sprite.Sprite):
         self.vx = 0
         self.vy = 0
 
-    def update(self, keys):
+    def update(self, keys, up, down):
 
         # Accelerates the paddle if key is pressed
         # If up key or key 'w' is pressed depending on the index
@@ -94,7 +94,7 @@ class Paddle(pygame.sprite.Sprite):
             self.vx = 0
 
         # If paddle hits the top barrier
-        if self.rect.top<self.ymin:
+        if self.rect.colliderect(up.rect):
             # Forms the top barrier for each paddle
             self.rect.top = self.ymin
             wallSound = pygame.mixer.Sound("wall.wav")
@@ -102,7 +102,7 @@ class Paddle(pygame.sprite.Sprite):
             # When paddle hits the top barrier its stops moving
             self.vy = 0
         # If paddle hits the bottom barrier
-        elif self.rect.bottom>self.ymax:
+        elif self.rect.colliderect(down.rect):
             # Forms the bottom barrier for each paddle
             self.rect.bottom = self.ymax
             wallSound = pygame.mixer.Sound("wall.wav")

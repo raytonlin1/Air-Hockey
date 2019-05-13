@@ -40,7 +40,7 @@ class Puck(pygame.sprite.Sprite):
         self.angle = 0
         self.speed = 0
 
-    def update(self):
+    def update(self, left, right, up, down):
         if (self.speed>0.2):
             self.speed -= 0.2
         elif (self.speed>0.2):
@@ -49,39 +49,35 @@ class Puck(pygame.sprite.Sprite):
             self.speed = 0
         self.rect.move_ip(math.cos(self.angle)*self.speed, -math.sin(self.angle)*self.speed)
         self.angle = calibrate(self.angle)
-        if self.rect.left<self.xmin:
-            self.rect.left = self.xmin
+        if self.rect.colliderect(left.rect):
             wallSound = pygame.mixer.Sound("wall.wav")
             wallSound.play()
             if (self.angle<math.pi):
                 self.angle = math.pi-self.angle
             else:
                 self.angle = math.pi*2-self.angle-math.pi
-        elif self.rect.right>self.xmax:
-            self.rect.right = self.xmax
+        elif self.rect.colliderect(right.rect):
             wallSound = pygame.mixer.Sound("wall.wav")
             wallSound.play()
             if (self.angle<math.pi/2):
                 self.angle = math.pi-self.angle
             else:
                 self.angle = math.pi*2-self.angle+math.pi
-        if self.rect.top<self.ymin:
-            self.rect.top = self.ymin
+        if self.rect.colliderect(up.rect):
             wallSound = pygame.mixer.Sound("wall.wav")
             wallSound.play()
             if (self.angle<math.pi/2):
                 self.angle = math.pi*2-self.angle
             else:
                 self.angle = math.pi-self.angle+math.pi
-        elif self.rect.bottom>self.ymax:
-            self.rect.bottom = self.ymax
+        elif self.rect.colliderect(down.rect):
             wallSound = pygame.mixer.Sound("wall.wav")
             wallSound.play()
             if (self.angle<3/2*math.pi):
                 self.angle = 2*math.pi-self.angle
             else:
                 self.angle = math.pi*2-self.angle
-        while (self.rect.left<self.xmin or self.rect.right>self.xmax or self.rect.top<self.ymin or self.rect.bottom>self.ymax):
+        while (self.rect.colliderect(left.rect) or self.rect.colliderect(right.rect) or self.rect.colliderect(up.rect) or self.rect.colliderect(down.rect)):
             self.rect.move_ip(math.cos(self.angle)*self.speed, -math.sin(self.angle)*self.speed)
 
     def bounce(self, paddle):

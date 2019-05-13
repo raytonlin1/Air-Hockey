@@ -13,8 +13,8 @@ pygame.init()
 
 #screen = pygame.display.set_mode((1000, 640))
 screen = pygame.display.set_mode((1040, 700))
-p1 = Paddle("redpaddle.png", 1, 100, 55, 690, 520, 60)
-p2 = Paddle("bluepaddle.png", 0, 100, 520, 690, 985, 60)
+p1 = Paddle("redpaddle.png", 1, 145, 55, 645, 520, 60)
+p2 = Paddle("bluepaddle.png", 0, 145, 520, 645, 985, 60)
 puck = Puck("puck.png", 100, 10, 690, 1030, 45)
 # Initialize left goal width
 width1 = 200
@@ -30,7 +30,7 @@ sideBlockWidth1 = 195
 sideBlockWidth2 = 195
 leftWall = Wall(90, 700, 0, 55, (0, 0, 0))
 rightWall = Wall(90, 700, 985, 1040, (0, 0, 0))
-upWall = Wall(90, 135, 0, 1040, (0, 0, 0))
+upWall = Wall(90, 145, 0, 1040, (0, 0, 0))
 downWall = Wall(645, 700, 0, 1040, (0, 0, 0))
 background = pygame.Surface(screen.get_size()).convert()
 pygame.display.set_caption('Air Hockey')
@@ -68,8 +68,8 @@ while keep_going:
     font1.set_bold(True)
     scoreLabel = font1.render((str(score2) + " : " + str(score1)), True, (0,0,255))
     keys = pygame.key.get_pressed()
-    p1.update(keys)
-    p2.update(keys)
+    p1.update(keys, upWall, downWall)
+    p2.update(keys, upWall, downWall)
     if (p1.collide(puck)):
         puck.bounce(p1)
     if (p2.collide(puck)):
@@ -79,7 +79,7 @@ while keep_going:
     font2 = pygame.font.SysFont("arial", 24)
     font2.set_bold(True)
 
-    puck.update()
+    puck.update(leftWall, rightWall, upWall, downWall)
 
     screen.blit(background, (0, 0))
     # Draw centre line of air hockey surface
