@@ -3,7 +3,7 @@ from pygame.locals import *
 
 class Goal(pygame.sprite.Sprite):
 
-    def __init__(self, id, left, top, width):
+    def __init__(self, left, top, width):
         # Constructs the parent component
         pygame.sprite.Sprite.__init__(self)
         # Creates a goal
@@ -16,3 +16,5 @@ class Goal(pygame.sprite.Sprite):
         # Sets the position of the goal
         self.rect.left = left
         self.rect.top = top
+
+    

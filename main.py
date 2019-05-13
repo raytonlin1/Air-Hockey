@@ -5,6 +5,7 @@ from Puck import *
 from Goal import *
 from GoalSideBlock import *
 from pygame.locals import *
+from Wall import *
 # Initiates pygame.mixer to allow user to adjust the sound volume
 pygame.mixer.init(frequency = 22050, size = -16, channels = 2, buffer = 1024)
 pygame.mixer.pre_init(44100, 16, 2, 4096)
@@ -20,21 +21,17 @@ width1 = 200
 # Initialize right goal width
 width2 = 200
 # Create left goal
-goal1 = Goal(1, 0, 295, width1)
+goal1 = Goal(0, 295, width1)
 # Create right goal
-goal2 = Goal(0, 985, 295, width2)
+goal2 = Goal(985, 295, width2)
 # Initialize left goalSideBlock width
 sideBlockWidth1 = 195
 # Initialize rigth goalSideBlock width
 sideBlockWidth2 = 195
-# Create left upper goalSideBlock
-goalSideBlockLU = GoalSideBlock(0, 0, 100, sideBlockWidth1)
-# Create left lower goalSideBlock
-goalSideBlockLL = GoalSideBlock(1, 0, 495, sideBlockWidth1)
-# Create right upper goalSideBlock
-goalSideBlockRU = GoalSideBlock(2, 985, 100, sideBlockWidth2)
-# Create right lower goalSideBlock
-goalSideBlockRL = GoalSideBlock(3, 985, 495, sideBlockWidth2)
+leftWall = Wall(90, 700, 0, 55, (0, 0, 0))
+rightWall = Wall(90, 700, 985, 1040, (0, 0, 0))
+upWall = Wall(90, 135, 0, 1040, (0, 0, 0))
+downWall = Wall(645, 700, 0, 1040, (0, 0, 0))
 background = pygame.Surface(screen.get_size()).convert()
 pygame.display.set_caption('Air Hockey')
 background.fill((255, 255, 255))
@@ -81,48 +78,6 @@ while keep_going:
     # Maximum goal size output font
     font2 = pygame.font.SysFont("arial", 24)
     font2.set_bold(True)
-    
-    if (puck.rect.left < 11) and (puck.rect.top > 270-(numIncrease1*20) and puck.rect.top < 470+(numIncrease1*20)):
-        goalMusic = pygame.mixer.Sound("goal.wav")
-        goalMusic.play()
-        puck = Puck("puck.png", 100, 10, 690, 1030, 45)
-        p1 = Paddle("redpaddle.png", 1, 100, 55, 690, 520, 60)
-        p2 = Paddle("bluepaddle.png", 0, 100, 520, 690, 985, 60)
-        if width1 < 401:
-            width1 += 40
-            sideBlockWidth1 -= 20
-            numIncrease1 += 1
-        maxIncreaseLabel2 = font2.render("Goal Size Maximum", True, (50,205,50))
-        goal1 = Goal(1, 0, (100+((690-100)/2)-(width1/2)), width1)
-        goalSideBlockLU = GoalSideBlock(0, 0, 100, sideBlockWidth1)
-        goalSideBlockLL = GoalSideBlock(1, 0, (495 + numIncrease1*20), sideBlockWidth1)
-        score1 += 1
-        time.sleep(2)
-        #print("Score Player 2:", score1)
-    elif (puck.rect.right > 1029) and (puck.rect.top > 270-(numIncrease2*20) and puck.rect.top < 470+(numIncrease2*20)):
-        goalSound = pygame.mixer.Sound("goal.wav")
-        goalSound.play()
-        puck = Puck("puck.png", 100, 10, 690, 1030, 45)
-        p1 = Paddle("redpaddle.png", 1, 100, 55, 690, 520, 60)
-        p2 = Paddle("bluepaddle.png", 0, 100, 520, 690, 985, 60)
-        if width2 < 401:
-            width2 += 40
-            sideBlockWidth2 -= 20
-            numIncrease2 += 1
-
-        maxIncreaseLabel1 = font2.render("Goal Size Maximum", True, (50,205,50))
-        goal2 = Goal(0, 985, (100+((690-100)/2)-(width2/2)), width2)
-        goalSideBlockRU = GoalSideBlock(2, 985, 100, sideBlockWidth2)
-        goalSideBlockRL = GoalSideBlock(3, 985, (495 + numIncrease2*20), sideBlockWidth2)
-        score2 += 1
-        #print("Score Player 1:", score2)
-        time.sleep(2)
-    
-    # Colour all 4 borders brown
-    # recSideLeft.fill((138,54,15))
-    # recSideRight.fill((138,54,15))
-    recSideTop.fill((138,54,15))
-    recSideBottom.fill((138,54,15))
 
     puck.update()
 
@@ -147,16 +102,15 @@ while keep_going:
     screen.blit(puck.image, puck.rect)
     # screen.blit(recSideLeft, (0,100))
     # screen.blit(recSideRight, (985,100))
-    screen.blit(recSideTop, (0,90))
-    screen.blit(recSideBottom, (0,690))
 
     screen.blit(goal1.image, goal1.rect)
     screen.blit(goal2.image, goal2.rect)
 
-    screen.blit(goalSideBlockLU.image, goalSideBlockLU.rect)
-    screen.blit(goalSideBlockLL.image, goalSideBlockLL.rect)
-    screen.blit(goalSideBlockRU.image, goalSideBlockRU.rect)
-    screen.blit(goalSideBlockRL.image, goalSideBlockRL.rect)
+    screen.blit(leftWall.image, leftWall.rect)
+    screen.blit(rightWall.image, rightWall.rect)
+    screen.blit(upWall.image, upWall.rect)
+    screen.blit(downWall.image, downWall.rect)
+
     
     # Centre the output of the score on the screen
     if score2 < 10:
