@@ -10,8 +10,25 @@ pygame.mixer.init(frequency = 22050, size = -16, channels = 2, buffer = 1024)
 pygame.mixer.pre_init(44100, 16, 2, 4096)
 pygame.init()
 
+font1 = pygame.font.SysFont("arial", 48)
+font1.set_bold(True)
+font2 = pygame.font.SysFont("arial", 24)
+font2.set_bold(True)
+
 #screen = pygame.display.set_mode((1000, 640))
 screen = pygame.display.set_mode((1040, 700))
+mainMenu = pygame.Surface((1040, 700))
+mainMenu.fill((255, 255, 255))
+pygame.draw.rect(mainMenu, (255, 0, 0), pygame.Rect(200, 200, 200, 200))
+pygame.draw.rect(mainMenu, (0, 255, 0), pygame.Rect(600, 200, 200, 200))
+rules = pygame.Surface((1040, 700))
+rules.fill((255, 255, 255))
+mainTitle = font1.render("MAIN MENU", True, (0,0,0))
+rulesTitle = font1.render("RULES", True, (0,0,0))  
+pygame.draw.rect(rules, (255, 0, 0), pygame.Rect(200, 200, 200, 200))
+inMenu = True
+inGame = False
+inRules = False
 p1 = Paddle("redpaddle.png", 1, 145, 55, 645, 520, 60)
 p2 = Paddle("bluepaddle.png", 0, 145, 520, 645, 985, 60)
 puck = Puck("puck.png", 100, 10, 690, 1030, 45)
@@ -58,80 +75,88 @@ numIncrease2 = 0
 recSideTop = pygame.Surface(recSize2).convert()
 recSideBottom = pygame.Surface(recSize2).convert()
 
-font1 = pygame.font.SysFont("arial", 48)
-font1.set_bold(True)
-font2 = pygame.font.SysFont("arial", 24)
-font2.set_bold(True)
-
-displaypuck = True
-
 while keep_going:
     clock.tick(60)
-    for ev in pygame.event.get():
-        if ev.type == QUIT:
-            keep_going = False
-    font1 = pygame.font.SysFont("arial", 48)
-    font1.set_bold(True)
-    scoreLabel = font1.render((str(score2) + " : " + str(score1)), True, (0,0,255))
-    keys = pygame.key.get_pressed()
-    p1.update(keys, upWall, downWall)
-    p2.update(keys, upWall, downWall)
-    if (p1.collide(puck)):
-        puck.bounce(p1)
-    if (p2.collide(puck)):
-        puck.bounce(p2)
-
-    if (puck.rect.colliderect(goal1.rect)):
-        print("HELLO")
-        displaypuck = False
-    elif (puck.rect.colliderect(goal2.rect)):
-        displaypuck = False
-        print("HELLO")
-
-    puck.update(goal1, goal2, leftWall, rightWall, upWall, downWall)
-
-    screen.blit(background, (0, 0))
-    # Draw centre line of air hockey surface
-    pygame.draw.line(screen, (255,0,0), (519,100), (519,690),5)
+    if (inRules):
+        for ev in pygame.event.get():
+            if ev.type == QUIT:
+                keep_going = False
+            elif ev.type == MOUSEBUTTONDOWN:
+                if (ev.pos[0]>=200 and ev.pos[0]<=400 and ev.pos[1]>=200 and ev.pos[1]<=400):
+                    inRules = False
+        screen.blit(rules, (0, 0))
+        screen.blit(rulesTitle, (350, 100))
+    elif (inMenu):
+        for ev in pygame.event.get():
+            if ev.type == QUIT:
+                keep_going = False
+            elif ev.type == MOUSEBUTTONDOWN:
+                if (ev.pos[0]>=200 and ev.pos[0]<=400 and ev.pos[1]>=200 and ev.pos[1]<=400):
+                    inMenu = False
+                    inGame = True
+                elif (ev.pos[0]>=600 and ev.pos[0]<=800 and ev.pos[1]>=200 and ev.pos[1]<=400):
+                    inRules = True
+        screen.blit(mainMenu, (0, 0))
+        screen.blit(mainTitle, (350, 100))
+    else:
+        for ev in pygame.event.get():
+            if ev.type == QUIT:
+                keep_going = False
+        scoreLabel = font1.render((str(score2) + " : " + str(score1)), True, (0,0,255))
+        keys = pygame.key.get_pressed()
+        p1.update(keys, upWall, downWall)
+        p2.update(keys, upWall, downWall)
+        if (p1.collide(puck)):
+            puck.bounce(p1)
+        if (p2.collide(puck)):
+            puck.bounce(p2)
     
-    # Draw circle at centre of air hockey surface
-    pygame.draw.circle(screen, (255,0,0), (520, 395), 130)
-    pygame.draw.circle(screen, (255,255,255), (520, 395), 125)
+        if (puck.rect.colliderect(goal1.rect)):
+            time.sleep(0)
+        elif (puck.rect.colliderect(goal2.rect)):
+            time.sleep(0)
 
-    # Draw semicircle at left goal
-    pygame.draw.circle(screen, (255,0,0), (15, 395), 105+(numIncrease1*20))
-    pygame.draw.circle(screen, (255,255,255), (15, 395), 100+(numIncrease1*20))
+        puck.update(goal1, goal2, leftWall, rightWall, upWall, downWall)
 
-    # Draw semicircle at right goal
-    pygame.draw.circle(screen, (255,0,0), (1025, 395), 105+(numIncrease2*20))
-    pygame.draw.circle(screen, (255,255,255), (1025, 395), 100+(numIncrease2*20))
+        screen.blit(background, (0, 0))
+        # Draw centre line of air hockey surface
+        pygame.draw.line(screen, (255,0,0), (519,100), (519,690),5)
     
-    screen.blit(p1.image, p1.rect)
-    screen.blit(p2.image, p2.rect)
-    # screen.blit(recSideLeft, (0,100))
-    # screen.blit(recSideRight, (985,100))
+        # Draw circle at centre of air hockey surface
+        pygame.draw.circle(screen, (255,0,0), (520, 395), 130)
+        pygame.draw.circle(screen, (255,255,255), (520, 395), 125)
 
-    screen.blit(leftWall.image, leftWall.rect)
-    screen.blit(rightWall.image, rightWall.rect)
-    screen.blit(upWall.image, upWall.rect)
-    screen.blit(downWall.image, downWall.rect)
+        # Draw semicircle at left goal
+        pygame.draw.circle(screen, (255,0,0), (15, 395), 105+(numIncrease1*20))
+        pygame.draw.circle(screen, (255,255,255), (15, 395), 100+(numIncrease1*20))
 
-    screen.blit(goal1.image, goal1.rect)
-    screen.blit(goal2.image, goal2.rect)
+        # Draw semicircle at right goal
+        pygame.draw.circle(screen, (255,0,0), (1025, 395), 105+(numIncrease2*20))
+        pygame.draw.circle(screen, (255,255,255), (1025, 395), 100+(numIncrease2*20))
+    
+        screen.blit(p1.image, p1.rect)
+        screen.blit(p2.image, p2.rect)
 
-    if (displaypuck):
+        screen.blit(leftWall.image, leftWall.rect)
+        screen.blit(rightWall.image, rightWall.rect)
+        screen.blit(upWall.image, upWall.rect)
+        screen.blit(downWall.image, downWall.rect)
+
+        screen.blit(goal1.image, goal1.rect)
+        screen.blit(goal2.image, goal2.rect)
+
         screen.blit(puck.image, puck.rect)
-    
-    # Centre the output of the score on the screen
-    if score2 < 10:
-        screen.blit(scoreLabel, (472,40))
-    elif score2 >= 10:
-        screen.blit(scoreLabel, (446,40))
 
-    # Output of text if the goal size reaches maximum size
-    if width1 > 400:
-        screen.blit(maxIncreaseLabel2, (30,60))
-    if width2 > 400:
-        screen.blit(maxIncreaseLabel1, (800,60))
+        # Centre the output of the score on the screen
+        if score2 < 10:
+            screen.blit(scoreLabel, (472,40))
+        elif score2 >= 10:
+            screen.blit(scoreLabel, (446,40))
+
+        # Output of text if the goal size reaches maximum size
+        if width1 > 400:
+            screen.blit(maxIncreaseLabel2, (30,60))
+        if width2 > 400:
+            screen.blit(maxIncreaseLabel1, (800,60))
     
     pygame.display.flip()
