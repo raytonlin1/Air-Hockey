@@ -12,8 +12,8 @@ pygame.init()
 
 #screen = pygame.display.set_mode((1000, 640))
 screen = pygame.display.set_mode((1040, 700))
-p1 = Paddle("redpaddle.png", 1, 100, 10, 690, 520, 60)
-p2 = Paddle("bluepaddle.png", 0, 100, 520, 690, 1030, 60)
+p1 = Paddle("redpaddle.png", 1, 100, 55, 690, 520, 60)
+p2 = Paddle("bluepaddle.png", 0, 100, 520, 690, 985, 60)
 puck = Puck("puck.png", 100, 10, 690, 1030, 45)
 # Initialize left goal width
 width1 = 200
@@ -86,8 +86,8 @@ while keep_going:
         goalMusic = pygame.mixer.Sound("goal.wav")
         goalMusic.play()
         puck = Puck("puck.png", 100, 10, 690, 1030, 45)
-        p1 = Paddle("redpaddle.png", 1, 100, 10, 690, 520, 60)
-        p2 = Paddle("bluepaddle.png", 0, 100, 520, 690, 1030, 60)
+        p1 = Paddle("redpaddle.png", 1, 100, 55, 690, 520, 60)
+        p2 = Paddle("bluepaddle.png", 0, 100, 520, 690, 985, 60)
         if width1 < 401:
             width1 += 40
             sideBlockWidth1 -= 20
@@ -103,8 +103,8 @@ while keep_going:
         goalSound = pygame.mixer.Sound("goal.wav")
         goalSound.play()
         puck = Puck("puck.png", 100, 10, 690, 1030, 45)
-        p1 = Paddle("redpaddle.png", 1, 100, 10, 690, 520, 60)
-        p2 = Paddle("bluepaddle.png", 0, 100, 520, 690, 1030, 60)
+        p1 = Paddle("redpaddle.png", 1, 100, 55, 690, 520, 60)
+        p2 = Paddle("bluepaddle.png", 0, 100, 520, 690, 985, 60)
         if width2 < 401:
             width2 += 40
             sideBlockWidth2 -= 20
