@@ -40,7 +40,7 @@ class Puck(pygame.sprite.Sprite):
         self.angle = 0
         self.speed = 0
 
-    def update(self, left, right, up, down):
+    def update(self, goal1, goal2, left, right, up, down):
         if (self.speed>0.2):
             self.speed -= 0.2
         elif (self.speed>0.2):
@@ -49,14 +49,16 @@ class Puck(pygame.sprite.Sprite):
             self.speed = 0
         self.rect.move_ip(math.cos(self.angle)*self.speed, -math.sin(self.angle)*self.speed)
         self.angle = calibrate(self.angle)
-        if self.rect.colliderect(left.rect):
+        if self.rect.colliderect(left.rect) and (self.rect.top<=goal1.rect.top or self.rect.bottom>=goal1.rect.bottom):
+            print(self.rect.top, self.rect.bottom)
+            print(goal1.rect.top, goal1.rect.bottom)
             wallSound = pygame.mixer.Sound("wall.wav")
             wallSound.play()
             if (self.angle<math.pi):
                 self.angle = math.pi-self.angle
             else:
                 self.angle = math.pi*2-self.angle-math.pi
-        elif self.rect.colliderect(right.rect):
+        elif self.rect.colliderect(right.rect) and (self.rect.top<=goal2.rect.top or self.rect.bottom>=goal2.rect.bottom):
             wallSound = pygame.mixer.Sound("wall.wav")
             wallSound.play()
             if (self.angle<math.pi/2):

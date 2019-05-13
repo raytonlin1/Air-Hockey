@@ -20,17 +20,17 @@ width1 = 200
 # Initialize right goal width
 width2 = 200
 # Create left goal
-goal1 = Goal(0, 295, width1)
+goal1 = Goal(0, 55, 295, 495)
 # Create right goal
-goal2 = Goal(985, 295, width2)
+goal2 = Goal(985, 1040, 295, 495)
 # Initialize left goalSideBlock width
 sideBlockWidth1 = 195
 # Initialize rigth goalSideBlock width
 sideBlockWidth2 = 195
-leftWall = Wall(90, 700, 0, 55, (0, 0, 0))
-rightWall = Wall(90, 700, 985, 1040, (0, 0, 0))
-upWall = Wall(90, 145, 0, 1040, (0, 0, 0))
-downWall = Wall(645, 700, 0, 1040, (0, 0, 0))
+leftWall = Wall(90, 700, 0, 55, (128, 128, 128))
+rightWall = Wall(90, 700, 985, 1040, (128, 128, 128))
+upWall = Wall(90, 145, 0, 1040, (128, 128, 128))
+downWall = Wall(645, 700, 0, 1040, (128, 128, 128))
 background = pygame.Surface(screen.get_size()).convert()
 pygame.display.set_caption('Air Hockey')
 background.fill((255, 255, 255))
@@ -76,16 +76,18 @@ while keep_going:
     if (p2.collide(puck)):
         puck.bounce(p2)
 
+    if (puck.rect.colliderect(goal1.rect)):
+        print("HELLO")
+        displaypuck = False
+    elif (puck.rect.colliderect(goal2.rect)):
+        displaypuck = False
+        print("HELLO")
+
     # Maximum goal size output font
     font2 = pygame.font.SysFont("arial", 24)
     font2.set_bold(True)
 
-    puck.update(leftWall, rightWall, upWall, downWall)
-
-    if (puck.rect.colliderect(goal1.rect)):
-        displaypuck = False
-    elif (puck.rect.colliderect(goal2.rect)):
-        displaypuck = False
+    puck.update(goal1, goal2, leftWall, rightWall, upWall, downWall)
 
     screen.blit(background, (0, 0))
     # Draw centre line of air hockey surface
@@ -108,13 +110,14 @@ while keep_going:
     # screen.blit(recSideLeft, (0,100))
     # screen.blit(recSideRight, (985,100))
 
-    screen.blit(goal1.image, goal1.rect)
-    screen.blit(goal2.image, goal2.rect)
-
     screen.blit(leftWall.image, leftWall.rect)
     screen.blit(rightWall.image, rightWall.rect)
     screen.blit(upWall.image, upWall.rect)
     screen.blit(downWall.image, downWall.rect)
+
+    screen.blit(goal1.image, goal1.rect)
+    screen.blit(goal2.image, goal2.rect)
+
     if (displaypuck):
         screen.blit(puck.image, puck.rect)
     
