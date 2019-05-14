@@ -37,9 +37,9 @@ width1 = 200
 # Initialize right goal width
 width2 = 200
 # Create left goal
-goal1 = Goal(0, 55, 295, 495)
+goal1 = Goal(-100, 55, 295, 495)
 # Create right goal
-goal2 = Goal(985, 1040, 295, 495)
+goal2 = Goal(985, 1140, 295, 495)
 # Initialize left goalSideBlock width
 sideBlockWidth1 = 195
 # Initialize rigth goalSideBlock width
@@ -110,7 +110,6 @@ while keep_going:
             puck.bounce(p1)
         if (p2.collide(puck)):
             puck.bounce(p2)
-    
         if (puck.rect.colliderect(goal1.rect)):
             goalMusic = pygame.mixer.Sound("goal.wav")
             goalMusic.play()
