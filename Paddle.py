@@ -104,6 +104,7 @@ class Paddle(pygame.sprite.Sprite):
         # If paddle hits the bottom barrier
         elif self.rect.colliderect(down.rect):
             # Forms the bottom barrier for each paddle
+            print(self.ymax)
             self.rect.bottom = self.ymax
             wallSound = pygame.mixer.Sound("wall.wav")
             wallSound.play()

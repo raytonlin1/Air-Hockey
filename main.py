@@ -113,16 +113,16 @@ while keep_going:
         if (puck.rect.colliderect(goal1.rect)):
             goalMusic = pygame.mixer.Sound("goal.wav")
             goalMusic.play()
+            p1 = Paddle("redpaddle.png", 1, 145, 55, 645, 520, 60)
+            p2 = Paddle("bluepaddle.png", 0, 145, 520, 645, 985, 60)
             puck = Puck("puck.png", 100, 10, 690, 1030, 45)
-            p1 = Paddle("redpaddle.png", 1, 100, 55, 690, 520, 60)
-            p2 = Paddle("bluepaddle.png", 0, 100, 520, 690, 985, 60)
             time.sleep(2)
         elif (puck.rect.colliderect(goal2.rect)):
             goalMusic = pygame.mixer.Sound("goal.wav")
             goalMusic.play()
+            p1 = Paddle("redpaddle.png", 1, 145, 55, 645, 520, 60)
+            p2 = Paddle("bluepaddle.png", 0, 145, 520, 645, 985, 60)
             puck = Puck("puck.png", 100, 10, 690, 1030, 45)
-            p1 = Paddle("redpaddle.png", 1, 100, 55, 690, 520, 60)
-            p2 = Paddle("bluepaddle.png", 0, 100, 520, 690, 985, 60)
             time.sleep(2)
 
         puck.update(goal1, goal2, leftWall, rightWall, upWall, downWall)
