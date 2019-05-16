@@ -3,11 +3,11 @@ from pygame.locals import *
 
 class Goal(pygame.sprite.Sprite):
 
-    def __init__(self, left, right, top, down):
+    def __init__(self, id, left, top, width):
         # Constructs the parent component
         pygame.sprite.Sprite.__init__(self)
         # Creates a goal
-        self.image = pygame.Surface((right-left, down-top)).convert()
+        self.image = pygame.Surface((55,width)).convert()
         # Colour of goal is black
         self.image.fill((0,0,0))
         # Determines the attributes of the goal as a rectangle
@@ -16,5 +16,3 @@ class Goal(pygame.sprite.Sprite):
         # Sets the position of the goal
         self.rect.left = left
         self.rect.top = top
-
-    
