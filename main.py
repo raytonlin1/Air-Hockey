@@ -1,14 +1,16 @@
 import pygame
 import time
+import math
 from Paddle import *
 from Puck import *
 from Goal import *
 from GoalBaseBlock import *
 from GoalSideBlock import *
+from GoalSideBounceBlock import *
 from pygame.locals import *
 # Initiates pygame.mixer to allow user to adjust the sound volume
-pygame.mixer.init(frequency = 22050, size = -16, channels = 3, buffer = 1024)
-#pygame.mixer.pre_init(44100, 16, 3, 4096)
+pygame.mixer.init(frequency = 22050, size = -16, channels = 2, buffer = 1024)
+#pygame.mixer.pre_init(44100, 16, 2, 4096)
 pygame.init()
 
 font1 = pygame.font.SysFont("arial", 48)
@@ -46,17 +48,25 @@ goalBaseBlock1 = GoalBaseBlock(1, 0, 295, width1)
 # Create right goalBaseBlock
 goalBaseBlock2 = GoalBaseBlock(0, 1029, 295, width2)
 # Initialize left goalSideBlock width
-sideBlockWidth1 = 195
+sideBlockWidth1 = 150
 # Initialize rigth goalSideBlock width
-sideBlockWidth2 = 195
+sideBlockWidth2 = 150
 # Create left upper goalSideBlock
-goalSideBlockLU = GoalSideBlock(0, 0, 100, sideBlockWidth1)
+goalSideBlockLU = GoalSideBlock(0, 0, 145, sideBlockWidth1)
 # Create left lower goalSideBlock
 goalSideBlockLL = GoalSideBlock(1, 0, 495, sideBlockWidth1)
 # Create right upper goalSideBlock
-goalSideBlockRU = GoalSideBlock(2, 985, 100, sideBlockWidth2)
+goalSideBlockRU = GoalSideBlock(2, 985, 145, sideBlockWidth2)
 # Create right lower goalSideBlock
 goalSideBlockRL = GoalSideBlock(3, 985, 495, sideBlockWidth2)
+# Create left upper goalSideBounceBlock
+goalSideBounceBlockLU = GoalSideBounceBlock(0, 0, 145, sideBlockWidth1)
+# Create left lower goalSideBounceBlock
+goalSideBounceBlockLL = GoalSideBounceBlock(1, 0, 495, sideBlockWidth1)
+# Create right upper goalSideBounceBlock
+goalSideBounceBlockRU = GoalSideBounceBlock(2, 985, 145, sideBlockWidth2)
+# Create left lower goalSideBounceBlock
+goalSideBounceBlockRL = GoalSideBounceBlock(3, 985, 495, sideBlockWidth2)
 background = pygame.Surface(screen.get_size()).convert()
 pygame.display.set_caption('Air Hockey')
 background.fill((255, 255, 255))
@@ -103,6 +113,7 @@ while keep_going:
                 if (ev.pos[0]>=200 and ev.pos[0]<=400 and ev.pos[1]>=200 and ev.pos[1]<=400):
                     inMenu = False
                     inGame = True
+                    startTime = time.time()
                 elif (ev.pos[0]>=600 and ev.pos[0]<=800 and ev.pos[1]>=200 and ev.pos[1]<=400):
                     inRules = True
         screen.blit(mainMenu, (0, 0))
@@ -111,8 +122,21 @@ while keep_going:
         for ev in pygame.event.get():
             if ev.type == QUIT:
                 keep_going = False
-
-        scoreLabel = font1.render((str(score1) + " : " + str(score2)), True, (0,0,255))
+        gameTime = 180-(round(time.time() - startTime))
+        minuteTime = gameTime // 60
+        secondTime = gameTime % 60
+        stringTime = str(minuteTime) + ":" + str(secondTime)
+        if (secondTime==0):
+            stringTime += '0'
+        
+        if (secondTime<10):
+            stringTime = (str(minuteTime) + ":" "0" + str(secondTime))
+        
+        #print(stringTime)
+        # Output the time remaining for the game
+        timeOutput = font1.render(stringTime, True, (255,0,0))
+        # Output the score for the game
+        scoreOutput = font1.render((str(score2) + " : " + str(score1)), True, (0,0,255))
         keys = pygame.key.get_pressed()
         p1.update(keys)
         p2.update(keys)
@@ -120,8 +144,8 @@ while keep_going:
             puck.bounce(p1)
         if (p2.collide(puck)):
             puck.bounce(p2)
-        
-        # if (puck.rect.left < 11) and (puck.rect.top > 270-(numIncrease1*20) and puck.rect.top < 470+(numIncrease1*20)):
+ 
+    
         if goalBaseBlock1.get_rect().colliderect(puck):
             pygame.mixer.Channel(0).play(pygame.mixer.Sound("goal.wav"))
             '''
@@ -138,12 +162,15 @@ while keep_going:
             maxIncreaseLabel2 = font2.render("Goal Size Maximum", True, (50,205,50))
             goal1 = Goal(1, 0, (100+((690-100)/2)-(width1/2)), width1)
             goalBaseBlock1 = GoalBaseBlock(1, 0,(100+((690-100)/2)-(width1/2)), width1)
-            goalSideBlockLU = GoalSideBlock(0, 0, 100, sideBlockWidth1)
+            goalSideBlockLU = GoalSideBlock(0, 0, 145, sideBlockWidth1)
+            goalSideBounceBlockLU = GoalSideBounceBlock(0, 0, 145, sideBlockWidth1)
             goalSideBlockLL = GoalSideBlock(1, 0, (495 + numIncrease1*20), sideBlockWidth1)
-            score2 += 1
+            goalSideBounceBlockLL = GoalSideBounceBlock(1, 0, (495 + numIncrease1*20), sideBlockWidth1)        
+            score1 += 1
             time.sleep(2)
             #print("Score Player 2:", score1)
-        # elif (puck.rect.right > 1029) and (puck.rect.top > 270-(numIncrease2*20) and puck.rect.top < 470+(numIncrease2*20)):
+
+
         if goalBaseBlock2.get_rect().colliderect(puck):
             pygame.mixer.Channel(0).play(pygame.mixer.Sound("goal.wav"))
             '''
@@ -160,12 +187,89 @@ while keep_going:
             maxIncreaseLabel1 = font2.render("Goal Size Maximum", True, (50,205,50))
             goal2 = Goal(0, 985, (100+((690-100)/2)-(width2/2)), width2)
             goalBaseBlock2 = GoalBaseBlock(0, 1029,(100+((690-100)/2)-(width2/2)), width2)
-            goalSideBlockRU = GoalSideBlock(2, 985, 100, sideBlockWidth2)
+            goalSideBlockRU = GoalSideBlock(2, 985, 145, sideBlockWidth2)
+            goalSideBounceBlockRU = GoalSideBounceBlock(2, 985, 145, sideBlockWidth2)
             goalSideBlockRL = GoalSideBlock(3, 985, (495 + numIncrease2*20), sideBlockWidth2)
-            score1 += 1
-            #print("Score Player 1:", score2)
+            goalSideBounceBlockRL = GoalSideBounceBlock(3, 985, (495 + numIncrease2*20), sideBlockWidth2)
+            score2 += 1
             time.sleep(2)
+            #print("Score Player 1:", score2)
+
+
+        if goalSideBounceBlockLU.get_rect().colliderect(puck) or goalSideBounceBlockLL.get_rect().colliderect(puck):
+            if (puck.speed>0.2):
+                puck.speed -= 0.2
+            else:
+                puck.speed = 0
+            puck.rect.move_ip(math.cos(puck.angle)*puck.speed, -math.sin(puck.angle)*puck.speed)
+            puck.angle = calibrate(puck.angle)
+            pygame.mixer.Channel(1).play(pygame.mixer.Sound("wall.wav"))
+            '''
+            wallSound = pygame.mixer.Sound("wall.wav")
+            wallSound.play()
+            '''
+            if (puck.angle<math.pi):
+                puck.angle = math.pi-puck.angle
+            else:
+                puck.angle = math.pi*2-puck.angle-math.pi
+            puck.rect.move_ip(math.cos(puck.angle)*puck.speed, -math.sin(puck.angle)*puck.speed)
+
+        # Collide with the side of the left goal
+        if (puck.xmin < 55 and goalSideBounceBlockLU.get_rect().colliderect(puck)):
+            #if (puck.xmin < 55):
+            puck.xmin = 56
+            puck.ymin = sideBlockWidth1 + 1
+            puck.update()
+            #screen.blit(puck.image, puck.rect)
+            puck.xmin = 10
+            puck.ymin = 145
+        elif (puck.xmin < 55 and goalSideBounceBlockLL.get_rect().colliderect(puck)):
+            #if (puck.xmin < 55):
+            puck.xmin = 56
+            # MAKE SURE TO CHANGE 45 FOR LEVEL 2 (CREATE IF STATEMENT)
+            puck.ymin = 645 - sideBlockWidth1 - 45 - 1
+            puck.update()
+            #screen.blit(puck.image, puck.rect)
+            puck.xmin = 10
+            puck.ymin = 145
         
+        if goalSideBounceBlockRU.get_rect().colliderect(puck) or goalSideBounceBlockRL.get_rect().colliderect(puck):
+            if (puck.speed>0.2):
+                puck.speed -= 0.2
+            else:
+                puck.speed = 0
+            puck.rect.move_ip(math.cos(puck.angle)*puck.speed, -math.sin(puck.angle)*puck.speed)
+            puck.angle = calibrate(puck.angle)
+            pygame.mixer.Channel(1).play(pygame.mixer.Sound("wall.wav"))
+            '''
+            wallSound = pygame.mixer.Sound("wall.wav")
+            wallSound.play()
+            '''
+            if (puck.angle<math.pi/2):
+                puck.angle = math.pi-puck.angle
+            else:
+                puck.angle = math.pi*2-puck.angle+math.pi
+            puck.rect.move_ip(math.cos(puck.angle)*puck.speed, -math.sin(puck.angle)*puck.speed)
+
+        # Collide with the side of the right goal
+        if (puck.xmax > 985 and goalSideBounceBlockRU.get_rect().colliderect(puck)):
+            #if (puck.xmin < 55):
+            puck.xmax = 984
+            puck.ymin = sideBlockWidth1 + 1
+            puck.update()
+            #screen.blit(puck.image, puck.rect)
+            puck.xmax = 1030
+            puck.ymin = 145
+        elif (puck.xmax > 985 and goalSideBounceBlockRL.get_rect().colliderect(puck)):
+            #if (puck.xmin < 55):
+            puck.xmax = 984
+            # MAKE SURE TO CHANGE 45 FOR LEVEL 2 (CREATE IF STATEMENT)
+            puck.ymin = 645 - sideBlockWidth1 - 45 - 1
+            puck.update()
+            #screen.blit(puck.image, puck.rect)
+            puck.xmax = 1030
+            puck.ymin = 145
+            
         # Colour all 4 borders brown
         # recSideLeft.fill((138,54,15))
         # recSideRight.fill((138,54,15))
@@ -205,12 +309,14 @@ while keep_going:
         screen.blit(goalSideBlockLL.image, goalSideBlockLL.rect)
         screen.blit(goalSideBlockRU.image, goalSideBlockRU.rect)
         screen.blit(goalSideBlockRL.image, goalSideBlockRL.rect)
+
+        screen.blit(timeOutput, (475,0))
         
         # Centre the output of the score on the screen
-        if score1 < 10:
-            screen.blit(scoreLabel, (472,40))
-        elif score1 >= 10:
-            screen.blit(scoreLabel, (446,40))
+        if score2 < 10:
+            screen.blit(scoreOutput, (472,40))
+        elif score2 >= 10:
+            screen.blit(scoreOutput, (446,40))
 
         # Output of text if the goal size reaches maximum size
         if width1 > 400:
