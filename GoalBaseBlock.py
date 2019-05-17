@@ -18,6 +18,5 @@ class GoalBaseBlock(pygame.sprite.Sprite):
         self.tp = tp
         self.width = width
 
-
     def get_rect(self):
         return pygame.Rect(self.lt, self.tp, 11, self.width)
