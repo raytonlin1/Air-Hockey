@@ -125,12 +125,11 @@ while keep_going:
         gameTime = 180-(round(time.time() - startTime))
         minuteTime = gameTime // 60
         secondTime = gameTime % 60
-        stringTime = str(minuteTime) + ":" + str(secondTime)
-        if (secondTime==0):
-            stringTime += '0'
-        
+        stringTime = str(minuteTime) + ":"
         if (secondTime<10):
-            stringTime = (str(minuteTime) + ":" "0" + str(secondTime))
+            stringTime += "0"+str(secondTime)
+        else:
+            stringTime += str(secondTime)
         
         #print(stringTime)
         # Output the time remaining for the game
