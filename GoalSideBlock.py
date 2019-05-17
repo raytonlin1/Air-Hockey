@@ -20,4 +20,3 @@ class GoalSideBlock(pygame.sprite.Sprite):
         # Sets the position of the goal
         self.rect.left = left
         self.rect.top = top
-        
