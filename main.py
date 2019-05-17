@@ -167,6 +167,7 @@ while keep_going:
             goalSideBounceBlockLL = GoalSideBounceBlock(1, 0, (495 + numIncrease1*20), sideBlockWidth1)        
             score1 += 1
             time.sleep(2)
+            startTime += 2
             #print("Score Player 2:", score1)
 
 
@@ -192,6 +193,7 @@ while keep_going:
             goalSideBounceBlockRL = GoalSideBounceBlock(3, 985, (495 + numIncrease2*20), sideBlockWidth2)
             score2 += 1
             time.sleep(2)
+            startTime += 2
             #print("Score Player 1:", score2)
 
 
