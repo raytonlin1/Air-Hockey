@@ -15,20 +15,33 @@ pygame.init()
 
 font1 = pygame.font.SysFont("arial", 48)
 font1.set_bold(True)
+
 font2 = pygame.font.SysFont("arial", 24)
 font2.set_bold(True)
+
+font3 = pygame.font.SysFont("arial", 48)
+font3.set_bold(True)
+font3.set_underline(True)
+
+font4 = pygame.font.SysFont("arial", 16)
 
 #screen = pygame.display.set_mode((1000, 640))
 screen = pygame.display.set_mode((1040, 700))
 mainMenu = pygame.Surface((1040, 700))
 mainMenu.fill((255, 255, 255))
-pygame.draw.rect(mainMenu, (255, 0, 0), pygame.Rect(200, 200, 200, 200))
-pygame.draw.rect(mainMenu, (0, 255, 0), pygame.Rect(600, 200, 200, 200))
+pygame.draw.rect(mainMenu, (255, 0, 0), pygame.Rect(540, 200, 400, 200))
+pygame.draw.rect(mainMenu, (0, 0, 255), pygame.Rect(100, 200, 400, 200))
 rules = pygame.Surface((1040, 700))
 rules.fill((255, 255, 255))
-mainTitle = font1.render("MAIN MENU", True, (0,0,0))
-rulesTitle = font1.render("RULES", True, (0,0,0))  
-pygame.draw.rect(rules, (255, 0, 0), pygame.Rect(200, 200, 200, 200))
+
+mainTitle = font3.render("MAIN MENU", True, (0,0,0))
+rulesTitle = font3.render("RULES", True, (0,0,0))
+levelSelectionTitle = font1.render("Level Selection", True, (255,255,255))
+rulesMenu = font1.render("Rules", True, (255,255,255))
+backMainMenu = font1.render("Back to Main Menu", True, (255,255,255))
+
+pygame.draw.rect(rules, (255, 0, 0), pygame.Rect(50, 590, 425, 60))
+
 inMenu = True
 inGame = False
 inRules = False
@@ -101,23 +114,27 @@ while keep_going:
             if ev.type == QUIT:
                 keep_going = False
             elif ev.type == MOUSEBUTTONDOWN:
-                if (ev.pos[0]>=200 and ev.pos[0]<=400 and ev.pos[1]>=200 and ev.pos[1]<=400):
+                if (ev.pos[0]>=50 and ev.pos[0]<=475 and ev.pos[1]>=590 and ev.pos[1]<=650):
                     inRules = False
         screen.blit(rules, (0, 0))
-        screen.blit(rulesTitle, (350, 100))
+        screen.blit(rulesTitle, (447, 100))
+        screen.blit(backMainMenu, (60, 593))
+        
     elif (inMenu):
         for ev in pygame.event.get():
             if ev.type == QUIT:
                 keep_going = False
             elif ev.type == MOUSEBUTTONDOWN:
-                if (ev.pos[0]>=200 and ev.pos[0]<=400 and ev.pos[1]>=200 and ev.pos[1]<=400):
+                if (ev.pos[0]>=100 and ev.pos[0]<=500 and ev.pos[1]>=200 and ev.pos[1]<=400):
                     inMenu = False
                     inGame = True
                     startTime = time.time()
-                elif (ev.pos[0]>=600 and ev.pos[0]<=800 and ev.pos[1]>=200 and ev.pos[1]<=400):
+                elif (ev.pos[0]>=540 and ev.pos[0]<=940 and ev.pos[1]>=200 and ev.pos[1]<=400):
                     inRules = True
         screen.blit(mainMenu, (0, 0))
-        screen.blit(mainTitle, (350, 100))
+        screen.blit(mainTitle, (389, 100))
+        screen.blit(levelSelectionTitle, (135, 271))
+        screen.blit(rulesMenu, (680, 271))
     else:
         for ev in pygame.event.get():
             if ev.type == QUIT:
