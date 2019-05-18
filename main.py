@@ -23,7 +23,12 @@ font3 = pygame.font.SysFont("arial", 48)
 font3.set_bold(True)
 font3.set_underline(True)
 
-font4 = pygame.font.SysFont("arial", 16)
+font4 = pygame.font.SysFont("arial", 20)
+font4.set_bold(True)
+font4.set_underline(True)
+
+font5 = pygame.font.SysFont("arial", 20)
+#font5.set_bold(True)
 
 #screen = pygame.display.set_mode((1000, 640))
 screen = pygame.display.set_mode((1040, 700))
@@ -34,11 +39,39 @@ pygame.draw.rect(mainMenu, (0, 0, 255), pygame.Rect(100, 200, 400, 200))
 rules = pygame.Surface((1040, 700))
 rules.fill((255, 255, 255))
 
+
 mainTitle = font3.render("MAIN MENU", True, (0,0,0))
 rulesTitle = font3.render("RULES", True, (0,0,0))
 levelSelectionTitle = font1.render("Level Selection", True, (255,255,255))
 rulesMenu = font1.render("Rules", True, (255,255,255))
 backMainMenu = font1.render("Back to Main Menu", True, (255,255,255))
+
+# Text for the rules for player with red paddle (in Rules section)
+redOutput1 = font4.render("Red Paddle Player Controls:", True, (255,0,0))
+redOutput2 = font5.render("Press 'W' to go up", True, (255,0,0))
+redOutput3 = font5.render("Press 'A' to go left", True, (255,0,0))
+redOutput4 = font5.render("Press 'S' to go down", True, (255,0,0))
+redOutput5 = font5.render("Press 'D' to go right", True, (255,0,0))
+
+# Text for the rules for player with blue paddle (in Rules section)
+blueOutput1 = font4.render("Blue Paddle Player Controls:", True, (0,0,255))
+blueOutput2 = font5.render("Press 'up arrow' to go up", True, (0,0,255))
+blueOutput3 = font5.render("Press 'left arrow' to go left", True, (0,0,255))
+blueOutput4 = font5.render("Press 'down arrow' to go down", True, (0,0,255))
+blueOutput5 = font5.render("Press 'right arrow' to go right", True, (0,0,255))
+
+# Text for the creators of the game (in main menu section)
+creators = font2.render("Programmed By: Albert Chan and Andrew Xue", True, (0,0,0))
+
+# Text for pausing the game (in Rules section)
+pauseGame = font2.render("Press the space bar to pause the game. Use your mouse select either resume or quit.", True, (0,0,0))
+
+# Text for length of each game (in Rules section)
+lengthOfGame = font2.render("Each game lasts for 3 minutes.", True, (0,0,0))
+
+# Text for objective of the game (in Rules section)
+objectiveOfGame = font2.render("Objective: Use your paddle to try to hit the puck into your opponent's goal", True, (0,0,0))
+objectiveOfGame2 = font2.render("The player with the most number of goals scored wins the game.", True, (0,0,0))
 
 pygame.draw.rect(rules, (255, 0, 0), pygame.Rect(50, 590, 425, 60))
 
@@ -107,6 +140,12 @@ numIncrease2 = 0
 recSideTop = pygame.Surface(recSize2).convert()
 recSideBottom = pygame.Surface(recSize2).convert()
 
+arrowControlImg = pygame.image.load("arrowcontrols.png").convert_alpha()
+
+letterControlImg = pygame.image.load("lettercontrols.png").convert_alpha()
+
+airHockeyLogo = pygame.image.load("airhockey.png").convert_alpha()
+
 while keep_going:
     clock.tick(60)
     if (inRules):
@@ -119,6 +158,28 @@ while keep_going:
         screen.blit(rules, (0, 0))
         screen.blit(rulesTitle, (447, 100))
         screen.blit(backMainMenu, (60, 593))
+
+        screen.blit(pygame.transform.scale(letterControlImg, (150,100)), (270,200))
+        screen.blit(pygame.transform.scale(arrowControlImg, (150,100)), (620,200))
+
+        screen.blit(redOutput1, (218,175))
+        screen.blit(redOutput2, (268,310))
+        screen.blit(redOutput3, (268,340))
+        screen.blit(redOutput4, (268,370))
+        screen.blit(redOutput5, (268,400))
+        
+        screen.blit(blueOutput1, (568,175))
+        screen.blit(blueOutput2, (598,310))
+        screen.blit(blueOutput3, (598,340))
+        screen.blit(blueOutput4, (598,370))
+        screen.blit(blueOutput5, (598,400))
+
+        screen.blit(pauseGame, (67,430))
+        screen.blit(lengthOfGame, (355,465))
+        screen.blit(objectiveOfGame, (130,500))
+        screen.blit(objectiveOfGame2, (180,535))
+        
+        screen.blit(pygame.transform.scale(airHockeyLogo, (312,120)), (364,0))
         
     elif (inMenu):
         for ev in pygame.event.get():
@@ -135,6 +196,8 @@ while keep_going:
         screen.blit(mainTitle, (389, 100))
         screen.blit(levelSelectionTitle, (135, 271))
         screen.blit(rulesMenu, (680, 271))
+        screen.blit(creators, (275,650))
+        screen.blit(pygame.transform.scale(airHockeyLogo, (780,300)), (130,415))
     else:
         for ev in pygame.event.get():
             if ev.type == QUIT:
