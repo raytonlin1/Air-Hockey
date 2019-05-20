@@ -121,6 +121,9 @@ width1 = 200
 # Initialize right goal width, and right goalBaseBlock width
 width2 = 200
 
+pSize1 = 45
+pSize2 = 45
+
 # Create left goal (Draw out goal)
 goal1 = Goal(1, 0, 295, width1)
 # Create right goal (Draw out goal)
@@ -160,8 +163,8 @@ score1 = 0
 score2 = 0
 
 # Number of increases of goal size
-numIncrease1 = 0
-numIncrease2 = 0
+goalIncrease1 = 0
+goalIncrease2 = 0
 
 # Loads image for arrow controls in rules
 arrowControlImg = pygame.image.load("arrowcontrols.png").convert_alpha()
@@ -366,9 +369,12 @@ while keep_going:
                     # Start time to calculate the time remaining in the game
                     startTime = time.time()
 
+                    pSize1 = 60
+                    pSize2 = 60
+
                     # Outputs original positions of the paddles and puck
-                    p1 = Paddle("redpaddle.png", 1, 145, 55, 645, 520, 60)
-                    p2 = Paddle("bluepaddle.png", 0, 145, 520, 645, 985, 60)
+                    p1 = Paddle("redpaddle.png", 1, 145, 55, 645, 520, pSize1)
+                    p2 = Paddle("bluepaddle.png", 0, 145, 520, 645, 985, pSize2)
                     puck = Puck("puck.png", 145, 10, 645, 1030, 45)
                     
                     # Initialize score for player 1
@@ -377,8 +383,9 @@ while keep_going:
                     score2 = 0
 
                     # Number of increases of goal size
-                    numIncrease1 = 0
-                    numIncrease2 = 0
+                    goalIncrease1 = 0
+                    goalIncrease2 = 0
+
                     # Initialize left goal width, and left goalBaseBlock width
                     width1 = 200
                     # Initialize right goal width, and right goalBaseBlock width
@@ -423,9 +430,12 @@ while keep_going:
                     # Start time to calculate the time remaining in the game
                     startTime = time.time()
 
+                    pSize1 = 60
+                    pSize2 = 60
+
                     # Outputs original positions of the paddles and puck
-                    p1 = Paddle("redpaddle.png", 1, 145, 55, 645, 520, 60)
-                    p2 = Paddle("bluepaddle.png", 0, 145, 520, 645, 985, 60)
+                    p1 = Paddle("redpaddle.png", 1, 145, 55, 645, 520, pSize1)
+                    p2 = Paddle("bluepaddle.png", 0, 145, 520, 645, 985, pSize2)
                     puck = Puck("puck.png", 145, 10, 645, 1030, 45)
                     
                     # Initialize score for player 1
@@ -434,9 +444,9 @@ while keep_going:
                     score2 = 0
 
                     # Number of increases of goal size
-                    numIncrease1 = 0
-                    numIncrease2 = 0
-                    
+                    goalIncrease1 = 0
+                    goalIncrease2 = 0
+
                     # Initialize left goal width, and left goalBaseBlock width
                     width1 = 200
                     # Initialize right goal width, and right goalBaseBlock width
@@ -678,11 +688,6 @@ while keep_going:
             # Goal sound is played
             pygame.mixer.Channel(0).play(pygame.mixer.Sound("goal.wav"))
 
-            # Paddles and puck are reset to original positions
-            p1 = Paddle("redpaddle.png", 1, 145, 55, 645, 520, 60)
-            p2 = Paddle("bluepaddle.png", 0, 145, 520, 645, 985, 60)
-            puck = Puck("puck.png", 145, 10, 645, 1030, 45)
-
             # If game is in level 1
             if level1:
                 # Width of the goal size increases up to certain size
@@ -691,7 +696,15 @@ while keep_going:
                     # Blocks beside the goal decreases because of goal size increase
                     sideBlockWidth1 -= 20
                     # Number of goal size increases (variable used in calculations to centre goal and increase circle around goal)
-                    numIncrease1 += 1
+                    goalIncrease1 += 1
+            else:
+                if pSize2 < 120:
+                    pSize2 += 10
+
+            # Paddles and puck are reset to original positions
+            p1 = Paddle("redpaddle.png", 1, 145, 55, 645, 520, pSize1)
+            p2 = Paddle("bluepaddle.png", 0, 145, 520, 645, 985, pSize2)
+            puck = Puck("puck.png", 145, 10, 645, 1030, 45)
 
             # Text if goal size can no longer be adjusted
             maxIncreaseLabel2 = font2.render("Goal Size Maximum", True, (50,205,50))
@@ -708,9 +721,9 @@ while keep_going:
             goalSideBounceBlockLU = GoalSideBounceBlock(0, 0, 145, sideBlockWidth1)
             
             # Use the GoalSideBlock class to draw lower block beside left goal and adjusts the width of the block in accordance of the goal size
-            goalSideBlockLL = GoalSideBlock(1, 0, (495 + numIncrease1*20), sideBlockWidth1)
+            goalSideBlockLL = GoalSideBlock(1, 0, (495 + goalIncrease1*20), sideBlockWidth1)
             # Use the GoalSideBounceBlock class to create lower block beside left goal and adjusts the width of the block in accordance of the goal size (used to create puck barrier)
-            goalSideBounceBlockLL = GoalSideBounceBlock(1, 0, (495 + numIncrease1*20), sideBlockWidth1)
+            goalSideBounceBlockLL = GoalSideBounceBlock(1, 0, (495 + goalIncrease1*20), sideBlockWidth1)
 
             # Increases score of blue paddle player
             score1 += 1
@@ -724,11 +737,6 @@ while keep_going:
             # Goal sound is played
             pygame.mixer.Channel(0).play(pygame.mixer.Sound("goal.wav"))
 
-            # Paddles and puck are reset to original positions
-            p1 = Paddle("redpaddle.png", 1, 145, 55, 645, 520, 60)
-            p2 = Paddle("bluepaddle.png", 0, 145, 520, 645, 985, 60)
-            puck = Puck("puck.png", 145, 10, 645, 1030, 45)
-
             # If game is in level 1
             if level1:
                 # Width of the goal size increases up to certain size
@@ -737,7 +745,15 @@ while keep_going:
                     # Blocks beside the goal decreases because of goal size increase
                     sideBlockWidth2 -= 20
                     # Number of goal size increases (variable used in calculations to centre goal and increase circle around goal)
-                    numIncrease2 += 1
+                    goalIncrease2 += 1
+            else:
+                if pSize1 < 120:
+                    pSize1 += 10
+
+            # Paddles and puck are reset to original positions
+            p1 = Paddle("redpaddle.png", 1, 145, 55, 645, 520, pSize1)
+            p2 = Paddle("bluepaddle.png", 0, 145, 520, 645, 985, pSize2)
+            puck = Puck("puck.png", 145, 10, 645, 1030, 45)
 
             # Text if goal size can no longer be adjusted
             maxIncreaseLabel1 = font2.render("Goal Size Maximum", True, (50,205,50))
@@ -754,9 +770,9 @@ while keep_going:
             goalSideBounceBlockRU = GoalSideBounceBlock(2, 985, 145, sideBlockWidth2)
 
             # Use the GoalSideBlock class to draw lower block beside right goal and adjusts the width of the block in accordance of the goal size
-            goalSideBlockRL = GoalSideBlock(3, 985, (495 + numIncrease2*20), sideBlockWidth2)
+            goalSideBlockRL = GoalSideBlock(3, 985, (495 + goalIncrease2*20), sideBlockWidth2)
             # Use the GoalSideBounceBlock class to create lower block beside right goal and adjusts the width of the block in accordance of the goal size (used to create puck barrier)
-            goalSideBounceBlockRL = GoalSideBounceBlock(3, 985, (495 + numIncrease2*20), sideBlockWidth2)
+            goalSideBounceBlockRL = GoalSideBounceBlock(3, 985, (495 + goalIncrease2*20), sideBlockWidth2)
 
             # Increases score of red paddle player
             score2 += 1
@@ -875,12 +891,12 @@ while keep_going:
         pygame.draw.circle(screen, (255,255,255), (520, 395), 125)
 
         # Draw semicircles at left goal
-        pygame.draw.circle(screen, (255,0,0), (15, 395), 105+(numIncrease1*20))
-        pygame.draw.circle(screen, (255,255,255), (15, 395), 100+(numIncrease1*20))
+        pygame.draw.circle(screen, (255,0,0), (15, 395), 105+(goalIncrease1*20))
+        pygame.draw.circle(screen, (255,255,255), (15, 395), 100+(goalIncrease1*20))
 
         # Draw semicircles at right goal
-        pygame.draw.circle(screen, (255,0,0), (1025, 395), 105+(numIncrease2*20))
-        pygame.draw.circle(screen, (255,255,255), (1025, 395), 100+(numIncrease2*20))
+        pygame.draw.circle(screen, (255,0,0), (1025, 395), 105+(goalIncrease2*20))
+        pygame.draw.circle(screen, (255,255,255), (1025, 395), 100+(goalIncrease2*20))
 
         # Outputs the paddles and puck to the screen
         screen.blit(p1.image, p1.rect)
@@ -924,6 +940,12 @@ while keep_going:
         # Outputs of "Goal Size Maximum" text if the right goal size reaches maximum size
         if width2 > 400:
             screen.blit(maxIncreaseLabel1, (740,60))
+
+        if pSize1 == 120:
+            screen.blit(font2.render("Paddle Size Maximum", True, (50,205,50)), (90, 60))
+
+        if pSize2 == 120:
+            screen.blit(font2.render("Paddle Size Maximum", True, (50,205,50)), (740, 60))
 
     # Updates the full display surface to the screen
     pygame.display.flip()
