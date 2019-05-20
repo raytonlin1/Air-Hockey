@@ -369,7 +369,9 @@ while keep_going:
                     # Start time to calculate the time remaining in the game
                     startTime = time.time()
 
+                    # Original red paddle size
                     pSize1 = 60
+                    # Original blue paddle size
                     pSize2 = 60
 
                     # Outputs original positions of the paddles and puck
@@ -430,7 +432,9 @@ while keep_going:
                     # Start time to calculate the time remaining in the game
                     startTime = time.time()
 
+                    # Original red paddle size
                     pSize1 = 60
+                    # Original blue paddle size
                     pSize2 = 60
 
                     # Outputs original positions of the paddles and puck
@@ -551,6 +555,12 @@ while keep_going:
                     inGame = False
                     pause = False
 
+                    # After quitting the game, it is neither in level 1 nor level 2
+                    if level1:
+                        level1 = False
+                    else:
+                        level2 = False
+
         # Output of the pause screen
         pygame.draw.rect(screen, (41,41,41), pygame.Rect(420, 245, 200, 300))
         # Button for resume game
@@ -649,6 +659,12 @@ while keep_going:
             inGame = False
             gameOver = True
             
+           # After the game ends, it is neither in level 1 nor level 2
+            if level1:
+                level1 = False
+            else:
+                level2 = False
+            
         # Determines number of minutes left
         minuteTime = gameTime // 60
         # Determines number of seconds left
@@ -697,6 +713,7 @@ while keep_going:
                     sideBlockWidth1 -= 20
                     # Number of goal size increases (variable used in calculations to centre goal and increase circle around goal)
                     goalIncrease1 += 1
+            # If game is in level 2
             else:
                 if pSize2 < 120:
                     pSize2 += 10
@@ -706,9 +723,11 @@ while keep_going:
             p2 = Paddle("bluepaddle.png", 0, 145, 520, 645, 985, pSize2)
             puck = Puck("puck.png", 145, 10, 645, 1030, 45)
 
+            '''
             # Text if goal size can no longer be adjusted
             maxIncreaseLabel2 = font2.render("Goal Size Maximum", True, (50,205,50))
-
+            '''
+            
             # Use the Goal class to create left goal (also centres the left goal)
             goal1 = Goal(1, 0, (100+((690-100)/2)-(width1/2)), width1)
 
@@ -746,6 +765,7 @@ while keep_going:
                     sideBlockWidth2 -= 20
                     # Number of goal size increases (variable used in calculations to centre goal and increase circle around goal)
                     goalIncrease2 += 1
+            # If game is in level 2
             else:
                 if pSize1 < 120:
                     pSize1 += 10
@@ -755,9 +775,10 @@ while keep_going:
             p2 = Paddle("bluepaddle.png", 0, 145, 520, 645, 985, pSize2)
             puck = Puck("puck.png", 145, 10, 645, 1030, 45)
 
+            '''
             # Text if goal size can no longer be adjusted
             maxIncreaseLabel1 = font2.render("Goal Size Maximum", True, (50,205,50))
-
+            '''
             # Use the Goal class to create right goal (also centres the right goal)
             goal2 = Goal(0, 985, (100+((690-100)/2)-(width2/2)), width2)
 
@@ -816,9 +837,7 @@ while keep_going:
         elif (puck.xmin < 55 and goalSideBounceBlockLL.get_rect().colliderect(puck)):
             # Puck is bounced to outside of the goal
             puck.xmin = 56
-            if level1:
-                # MAKE SURE TO CHANGE 45 FOR LEVEL 2 (CREATE ANOTHER IF STATEMENT)
-                puck.ymin = 645 - sideBlockWidth1 - 45 - 1
+            puck.ymin = 645 - sideBlockWidth1 - 45 - 1
             puck.update()
             # Puck barrier coordinates are set back to original
             puck.xmin = 10
@@ -859,9 +878,7 @@ while keep_going:
         elif (puck.xmax > 985 and goalSideBounceBlockRL.get_rect().colliderect(puck)):
             # Puck is bounced to outside of the goal
             puck.xmax = 984
-            if level1:
-                # MAKE SURE TO CHANGE 45 FOR LEVEL 2 (CREATE IF STATEMENT)
-                puck.ymin = 645 - sideBlockWidth1 - 45 - 1
+            puck.ymin = 645 - sideBlockWidth1 - 45 - 1
             puck.update()
             # Puck barrier coordinates are set back to original
             puck.xmax = 1030
@@ -927,25 +944,32 @@ while keep_going:
         # Outputs the time remaining
         screen.blit(timeOutput, (475,0))
 
-        # Used to centre the output of the score on the screen
+        # Centres the output of the score on the screen
         if score2 < 10:
             screen.blit(scoreOutput, (472,40))
         elif score2 >= 10:
             screen.blit(scoreOutput, (446,40))
-            
-        # Outputs of "Goal Size Maximum" text if the left goal size reaches maximum size
+        
+        # Outputs of "Goal Size Maximum" text if the left goal reaches its maximum size
         if width1 > 400:
-            screen.blit(maxIncreaseLabel2, (90,60))
-
-        # Outputs of "Goal Size Maximum" text if the right goal size reaches maximum size
+            screen.blit(font2.render("Goal Size Maximum", True, (50,205,50)), (90,60))
+        # Outputs of "Goal Size Maximum" text if the right goal reaches its maximum size
         if width2 > 400:
-            screen.blit(maxIncreaseLabel1, (740,60))
+            screen.blit(font2.render("Goal Size Maximum", True, (50,205,50)), (740,60))
 
+        # Outputs of "Paddle Size Maximum" text if the red paddle reaches its maximum size
         if pSize1 == 120:
             screen.blit(font2.render("Paddle Size Maximum", True, (50,205,50)), (90, 60))
-
+        # Outputs of "Paddle Size Maximum" text if the blue paddle reaches its maximum size
         if pSize2 == 120:
             screen.blit(font2.render("Paddle Size Maximum", True, (50,205,50)), (740, 60))
+
+        # If game is in level 1, level 1 is shown on the screen during game play so that the users know which level they are playing in        
+        if level1:
+            screen.blit(font6.render("LEVEL 1", True, (0,191,255)), (250, 25))
+        # If game is in level 2, level 1 is shown on the screen during game play so that the users know which level they are playing in  
+        else:
+            screen.blit(font6.render("LEVEL 2", True, (0,139,0)), (250, 25))
 
     # Updates the full display surface to the screen
     pygame.display.flip()
