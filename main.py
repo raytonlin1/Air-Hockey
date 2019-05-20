@@ -121,7 +121,9 @@ width1 = 200
 # Initialize right goal width, and right goalBaseBlock width
 width2 = 200
 
+# Initialize the red paddle size
 pSize1 = 45
+# Initialize the blue paddle size
 pSize2 = 45
 
 # Create left goal (Draw out goal)
