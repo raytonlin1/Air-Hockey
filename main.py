@@ -519,6 +519,9 @@ while keep_going:
         screen.blit(levelOneDescription2, (181, 360))
         screen.blit(levelTwoDescription1, (560, 330))
         screen.blit(levelTwoDescription2, (623, 360))
+
+        # Outputs air hockey logo at the top of the screen
+        screen.blit(pygame.transform.scale(airHockeyLogo, (312,120)), (364,0))
         
         # Outputs text for back to main menu button
         screen.blit(backMainMenu, (60, 593))
