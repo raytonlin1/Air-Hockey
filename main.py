@@ -308,7 +308,7 @@ while keep_going:
         # Creates rectangle for level selection button
         pygame.draw.rect(mainMenu, (0, 0, 255), pygame.Rect(100, 200, 400, 200))
         # Creates rectangle for rules button
-        pygame.draw.rect(mainMenu, (0,201,87), pygame.Rect(540, 200, 400, 200))
+        pygame.draw.rect(mainMenu, (0,205,0), pygame.Rect(540, 200, 400, 200))
         
         # Text for level selection button (in Main Menu)
         levelSelectionMenu = font1.render("Level Selection", True, (255,255,255))
@@ -483,6 +483,12 @@ while keep_going:
         levelOneTitle = font1.render("Level 1", True, (255,255,255))
         levelTwoTitle = font1.render("Level 2", True, (255,255,255))
 
+        # Text to describe each level
+        levelOneDescription1 = font6.render("Opponent's goal size increases", True, (255,255,255))
+        levelOneDescription2 = font6.render("when player scores.", True, (255,255,255))
+        levelTwoDescription1 = font6.render("Player's paddle size increases", True, (255,255,255))
+        levelTwoDescription2 = font6.render("when player scores.", True, (255,255,255))
+        
         # Outputs level selection screen
         screen.blit(levelSelection, (0, 0))
         # Outputs level selection title
@@ -492,6 +498,12 @@ while keep_going:
         screen.blit(levelOneTitle, (225, 271))
         screen.blit(levelTwoTitle, (660, 271))
 
+        # Outputs description of each level
+        screen.blit(levelOneDescription1, (115, 330))
+        screen.blit(levelOneDescription2, (181, 360))
+        screen.blit(levelTwoDescription1, (560, 330))
+        screen.blit(levelTwoDescription2, (623, 360))
+        
         # Outputs text for back to main menu button
         screen.blit(backMainMenu, (60, 593))
 
